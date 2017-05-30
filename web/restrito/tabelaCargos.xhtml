@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="_template.xhtml">
+
+    <ui:define name="conteudo">
+        <div class="post">
+            <h3 class="title">Consulta Cargos cadastrados</h3>
+            <div class="entry">
+            </div>
+        </div>
+
+        <center> 
+
+
+
+            <h:form>
+
+
+                <p:dataTable styleClass="tabela" var="cargos" value="#{controleCargo.buscar()}" widgetVar="busca" paginator="true" rows="15" emptyMessage="Nenhum registro encontrado"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}
+                             {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15,50" >
+                    <f:facet name="header">
+
+                        <div align="left">
+                            <p:commandButton id="cad" icon="ui-icon-plus" onclick="PF('incluirCargo').show()">
+                                <p:tooltip id="dica" for="cad" value="Adicionar novo cargo" showEffect="clip" hideEffect="explode" style="color: #149bdf"/>
+                            </p:commandButton>
+
+                            <p:commandButton id="edita" icon="ui-icon-pencil" action="editaTabelaCargos.xhtml">
+                                <p:tooltip id="dicas" for="edita" value="Editar" showEffect="clip" hideEffect="explode" style="color: #149bdf"/>
+                            </p:commandButton>
+
+                            <p:commandButton id="remove" icon="ui-icon-trash" action="editaTabelaCargos.xhtml">
+                                <p:tooltip id="dicas1" for="remove" value="Excluir" showEffect="clip" hideEffect="explode" style="color: #149bdf"/>
+                            </p:commandButton>
+
+                        </div>
+
+
+                    </f:facet>
+                    <f:facet name="header">
+                        Lista de Cargos Cadastrados
+                    </f:facet>
+                    <p:column headerText="CBO" sortBy="#{cargos.cbo}" style="width:120px;text-align: center"
+                              filterBy="#{cargos.cbo}">
+                        <h:outputText value="#{cargos.cbo}" />
+                    </p:column>
+
+                    <p:column headerText="Nome" sortBy="#{cargos.nome}"
+                              filterBy="#{cargos.nome}" filterFunction="#{controleCargo.filtrarNome}" filterMatchMode="contains">
+                        <h:outputText value="#{cargos.nome}"/>
+                    </p:column>
+
+                    <p:column headerText="Descrição" sortBy="#{cargos.nome}" style="width:70px;text-align: center">
+                        <p:commandButton style="background:  #149bdf" action="#{controleCargo.setCargo(cargos)}" update="@form:cargosDetalhe" onclick="PF('cargosDia').show()" icon="ui-icon-search" title="Descrição">
+                            <f:param value="#{cargos}"  />  
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+
+
+
+                <p:dialog header="Descrição" widgetVar="cargosDia" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="300">
+                    <p:outputPanel id="cargosDetalhe" style="text-align:justify;">
+                        <h:outputText value="#{controleCargo.cargo.descricaoCargo.descricao}" />
+                    </p:outputPanel>
+                </p:dialog>
+
+
+
+            </h:form>
+
+
+            <h:form>
+                <p:dialog header="Incluir novo Cargo" widgetVar="incluirCargo" showEffect="explode" hideEffect="fade" height="200">
+                    <p:fieldset toggleable="true" >
+                        <p:growl id="msg0" />
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="CBO: " for="cboCod"/>
+                            <p:inputText id="cboCod" size="40" value="#{controleCargo.cargos.cbo}"
+                                         required="true" requiredMessage="O campo [CBO] é obrigatório" >
+                            </p:inputText>
+                            <p:outputLabel value="Cargo: " for="nomeCargo"/>
+                            <p:inputText id="nomeCargo" size="40" value="#{controleCargo.cargos.nome}"
+                                         required="true" requiredMessage="O campo [Cargo] é obrigatório" >
+                            </p:inputText>
+                            <p:outputLabel value="Descrição: " for="descric"/>
+                            <p:inputText id="descric" size="40" value="#{controleCargo.descricaoCargo.descricao}">
+                            </p:inputText>
+                            <p:commandButton value="Gravar" actionListener="#{controleCargo.adicionaCargo()}" image="ui-icon ui-icon-person" update="@form"/>
+                            <p:commandButton value="Cancelar" actionListener="#{controleCargo.limparCargo()}" image="ui-icon ui-icon-close" update="@form"/>
+                        </p:panelGrid>
+                    </p:fieldset>
+                </p:dialog>
+
+                              
+            </h:form>
+
+
+
+        </center> 
+    </ui:define>
+</ui:composition>
+

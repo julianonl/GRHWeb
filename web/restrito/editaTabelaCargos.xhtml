@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="_template.xhtml">
+
+    <ui:define name="conteudo">
+        <div class="post">
+            <h3 class="title">Consulta Cargos cadastrados</h3>
+            <div class="entry">
+            </div>
+        </div>
+
+        <center> 
+
+
+
+            <h:form id="tabelaCargo">
+
+
+                <p:dataTable id="tabela" styleClass="tabela" var="cargos" value="#{controleCargo.buscarCargo()}" widgetVar="busca" paginator="true" rows="15" emptyMessage="Nenhum registro encontrado"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}
+                             {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15,50" >
+
+                    <p:column headerText="CBO" sortBy="#{cargos.cbo}" style="width:120px;text-align: center"
+                              filterBy="#{cargos.cbo}">
+                        <h:outputText value="#{cargos.cbo}" />
+                    </p:column>
+
+                    <p:column headerText="Nome" sortBy="#{cargos.nome}"
+                              filterBy="#{cargos.nome}" filterFunction="#{controleCargo.filtrarNome}" filterMatchMode="contains">
+                        <h:outputText value="#{cargos.nome}"/>
+                    </p:column>
+
+
+
+                    <p:column headerText="Descrição" sortBy="#{cargos.descricaoCargo.descricao}"
+                              filterBy="#{cargos.descricaoCargo.descricao}" filterFunction="#{controleCargo.filtrarNome}" filterMatchMode="contains">
+                        <h:outputText value="#{cargos.descricaoCargo.descricao}"/>
+                    </p:column>
+
+                    <p:column headerText="Editar" sortBy="#{cargos.nome}" style="width:70px;text-align: center">
+                        <p:commandButton style="background:  #149bdf" action="#{controleCargo.setCargo(cargos)}" update=":formEditar:painel" onclick="PF('editarCargo').show()" icon="ui-icon-search" title="Editar">
+                            <f:param value="#{cargos}"  />  
+                        </p:commandButton>
+                    </p:column>
+
+                    <p:column headerText="Remover" sortBy="#{cargos.nome}" style="width:70px;text-align: center">
+                        <p:commandButton style="background:  #149bdf"  action="#{controleCargo.setCargo(cargos)}" onclick="PF('excluirCargo').show()" icon="ui-icon-trash" title="Remover">
+
+                        </p:commandButton>
+                    </p:column>
+
+
+
+                </p:dataTable>
+                <p:dialog header="Deseja excluir o Cargo Selecionado?" modal="true" widgetVar="excluirCargo" showEffect="explode" hideEffect="fade" height="100">
+
+                    <p:panel>
+                    <p:panelGrid columns="2" id="painelDialog">
+                        <h:outputLabel value="CBO:"/>
+                        <h:outputText value="#{controleCargo.cargo.cbo}"/>
+                        <h:outputLabel value="Cargo:"/>
+                        <h:outputText value="#{controleCargo.cargo.nome}"/>
+                    </p:panelGrid>
+                        
+                        <br></br>
+                    
+                    <p:commandButton value="Excluir" style="background:  #1e94d2" update="@form" action="#{controleCargo.excluirCargo()}" icon="ui-icon-trash" title="Remover">
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" style="background:  #1e94d2" update="@form" icon="ui-icon-close" title="Cancelar">
+                    </p:commandButton>
+
+</p:panel>
+                </p:dialog>
+
+
+
+            </h:form>
+
+
+            <h:form id="formEditar">
+
+                <p:dialog id="d2" header="Editar Cargo" widgetVar="editarCargo" showEffect="explode" hideEffect="fade" height="200">
+                    <p:fieldset toggleable="true" >
+
+                        <p:panelGrid columns="2" id="painel">
+                            <p:outputLabel value="CBO: " for="cboCod1"/>
+                            <p:inputText id="cboCod1" size="40" value="#{controleCargo.cargo.cbo}"
+                                         required="true" requiredMessage="O campo [CBO] é obrigatório" >
+                            </p:inputText>
+                            <p:outputLabel value="Cargo: " for="nomeCargo1"/>
+                            <p:inputText id="nomeCargo1" size="40" value="#{controleCargo.cargo.nome}"
+                                         required="true" requiredMessage="O campo [Cargo] é obrigatório" >
+                            </p:inputText>
+                            <p:outputLabel value="Descrição: " for="descric1"/>
+                            <p:inputText id="descric1" size="40" value="#{controleCargo.descricaoCargo.descricao}">
+                            </p:inputText>
+                            <p:commandButton value="Gravar" actionListener="#{controleCargo.atualizarCargo()}" image="ui-icon ui-icon-person" update="@form,:tabelaCargo"/>
+                            <p:commandButton value="Cancelar" actionListener="#{controleCargo.limparCargo()}" image="ui-icon ui-icon-close" update="@form"/>
+                            <h:inputHidden value="#{controleCargo.cargo.id}"/>
+                        </p:panelGrid>
+                    </p:fieldset>
+                </p:dialog>
+
+            </h:form>
+
+
+
+        </center> 
+    </ui:define>
+</ui:composition>
+

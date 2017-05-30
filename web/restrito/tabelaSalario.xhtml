@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="_template.xhtml">
+
+    <ui:define name="conteudo">
+        <div class="post">
+            <h3 class="title">Consulta Tabela Salários</h3>
+            <div class="entry">
+            </div>
+        </div>
+
+        <center> 
+
+
+
+            <h:form id="formSalario">
+
+
+                <p:dataTable styleClass="tabela" var="salario" value="#{controleSalario.buscarSalario()}" widgetVar="busca" paginator="true" rows="15" emptyMessage="Nenhum registro encontrado"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}
+                             {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15,50" >
+                    <f:facet name="header">
+
+                        <div align="left">
+                            <p:commandButton id="cadast" icon="ui-icon-plus" onclick="PF('incluirSalario').show()">
+                                <p:tooltip id="dica01" for="cadast" value="Adicionar nova faixa salarial" showEffect="clip" hideEffect="explode" style="color: #149bdf"/>
+                            </p:commandButton>
+
+                        </div>
+
+
+                    </f:facet>
+                    <f:facet name="header">
+                        Lista de Cargos Cadastrados
+                    </f:facet>
+                    <p:column headerText="Faixa" style="width:120px; text-align: center">
+                        <h:outputText value="#{salario.id}" />
+                    </p:column>
+
+                    <p:column headerText="Salário">
+                        <h:outputText value="#{salario.valor}"/>
+                    </p:column>
+
+                    <p:column headerText="Faixa" style="width:70px;text-align: center">
+
+                        <p:commandButton id="remover" icon="ui-icon-trash" update="@form" action="editaTabelaCargos.xhtml" actionListener="#{controleSalario.excluirSalario(salario.id)}">
+                            <p:tooltip id="dicas03" for="remover" value="Excluir" showEffect="clip" hideEffect="explode" style="color: #149bdf"/>
+                        </p:commandButton>
+
+                    </p:column>
+                </p:dataTable>
+
+            </h:form>
+
+
+            <h:form>
+                <p:dialog header="Incluir nova Faixa Salarial" widgetVar="incluirSalario" showEffect="explode" hideEffect="fade" height="200">
+                    <p:fieldset toggleable="true" >
+                        <p:growl id="msg0" />
+                        <p:panelGrid columns="2">
+
+                            <p:outputLabel value="Salário: " for="nomeSal"/>
+                            <p:inputText id="nomeSal" size="40" value="#{controleSalario.salario.valor}"
+                                         required="true" requiredMessage="O campo [Cargo] é obrigatório" >
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                            </p:inputText>
+
+
+                            <p:commandButton value="Gravar" actionListener="#{controleSalario.adicionaSalario()}" image="ui-icon ui-icon-person" update=":formSalario"/>
+                            <p:commandButton value="Cancelar" actionListener="#{controleSalario.limparSalario()}" image="ui-icon ui-icon-close" update=":formSalario"/>
+                        </p:panelGrid>
+                    </p:fieldset>
+                </p:dialog>
+
+            </h:form>
+        </center> 
+    </ui:define>
+</ui:composition>
+

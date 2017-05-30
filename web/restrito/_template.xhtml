@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <!--<meta http-equiv="content-type" content="text/html; charset=utf-8" />-->
+        <title>GRH-web</title>
+        <meta name="keywords" content="GRH-web" />
+        <meta name="description" content="Sistema de recursos humanos" />
+        <link href="../recursos/css/style.css" rel="stylesheet" type="text/css" media="screen" />
+    </h:head>
+    <h:body>
+        <div id="header">
+
+
+            <h:form >
+
+                <h:dataTable value="#{controleEmpresa.procuraEmpresa()}" var="item">
+                    <h:column>
+            
+                        <h:commandLink id="logo" action="alteraLogoMarca.xhtml"><p:graphicImage value="#{controleEmpresa.buscarLogomarca()}" class="logo"/></h:commandLink>
+                    
+                           <p:tooltip id="dica" for="logo" value="Click para alterar a Imagem"
+               showEffect="clip" hideEffect="explode"/>
+                    
+                    </h:column>
+                    <h:column>
+                        <h3 style="color: #149bdf">
+                            #{item.cnpj.razaoSocial} 
+                        </h3>
+                    </h:column>
+                </h:dataTable>
+
+                <h:dataTable value="#{controleEmpresa.procuraEmpresa()}" var="item">
+                    <h:column>
+                        CNPJ: #{item.cnpj.cnpj} - Responsavel: #{item.responsavelNome}
+                    </h:column>
+                </h:dataTable>
+
+            </h:form>
+
+            <div class="linhamento">
+            </div>
+        </div>
+        <div id="page">
+            <div id="page-bgtop">
+                <div id="page-bgbtm">
+                    <div id="content">
+                        <ui:insert name="conteudo">
+                            <div class="post">
+                                <h2 class="title">Gestão de Pessoas</h2>
+                                <div class="entry">
+                                </div>
+                            </div>
+                        </ui:insert>
+                    </div>
+                    <div id="sidebar">
+                        <h:form>
+                            <ul>
+                                <li >
+                                    <h2>Rotinas diárias</h2>
+                                    <ul>
+                                        <li>    
+                                            <h:form>
+                                                <p:growl id="messages" showDetail="true"/>
+                                                <p:commandButton id="dynaButton" class="campomenu" value="Base de Dados" type="button" icon="ui-icon-person"/>
+                                                <p:slideMenu overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="width:180px" backLabel="Voltar">
+                                                    <p:submenu label="Tabelas">
+                                                        <p:menuitem value="Previdencia Social" url="tabelaINSS.xhtml" update="messages" icon="ui-icon-person"/>
+                                                        <p:menuitem value="IRRF" url="tabelaIRRF.xhtml" update="messages" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="Cargos" url="tabelaCargos.xhtml" update="messages" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="Salário" url="tabelaSalario.xhtml" update="messages" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="Horário" actionListener="#{menuView.update}" update="messages" icon="ui-icon-disk"/>
+                                                    </p:submenu>
+                                                    <p:submenu label="Trabalhadores">
+                                                        <p:menuitem value="Cadastro Trabalhadores" actionListener="#{menuView.delete}"  ajax="false" icon="ui-icon-person"/>
+                                                        <p:menuitem value="Relaçao de Trabalhadores" actionListener="#{menuView.delete}"  ajax="false" icon="ui-icon-person"/>
+                                                    </p:submenu>
+                                                    <p:submenu label="Dependentes">
+                                                        <p:menuitem value="Cadastro Dependentes" actionListener="#{menuView.delete}"  ajax="false" icon="ui-icon-person"/>
+                                                        <p:menuitem value="Relaçao Dependentes" actionListener="#{menuView.delete}"  ajax="false" icon="ui-icon-person"/>
+                                                    </p:submenu>
+
+                                                    <p:submenu label="Ficha de Registro">
+                                                        <p:menuitem value="Ficha de Financeira" actionListener="#{menuView.delete}"  ajax="false" icon="ui-icon-person"/>
+                                                    </p:submenu>
+                                                </p:slideMenu>
+                                            </h:form>
+                                        </li>
+                                        <li>
+                                            <h:form>
+                                                <p:growl id="messages" showDetail="true"/>
+                                                <p:commandButton id="dynaButton" class="campomenu" value="Rotinas Diárias" type="button" icon="ui-icon-disk"/>
+                                                <p:slideMenu backLabel="Voltar" overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="width:180px">
+                                                    <p:submenu label="Pagamento">
+                                                        <p:menuitem value="Lançamento" actionListener="#{menuView.save}" update="messages" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="Recibo de Pagamento" actionListener="#{menuView.update}" update="messages" icon="ui-icon-disk"/>
+                                                    </p:submenu>
+                                                    <p:submenu label="Imprimir">
+                                                        <p:menuitem value="Demonstrativo de Pagamento" actionListener="#{menuView.delete}"  ajax="false" icon="ui-icon-disk"/>
+                                                    </p:submenu>
+                                                </p:slideMenu>
+                                            </h:form>
+                                        </li>
+                                        <li>
+                                            <h:form>
+                                                <p:growl id="messages" showDetail="true"/>
+                                                <p:commandButton id="dynaButton" class="campomenu" value="Afastamento" type="button" icon="ui-icon-extlink"/>
+                                                <p:slideMenu backLabel="Voltar" overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="width:180px">
+                                                    <p:submenu label="Afastamento">
+                                                        <p:menuitem value="Novo Afastamento" actionListener="#{menuView.save}" update="messages" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="Lista Afastamentos" actionListener="#{menuView.update}" update="messages" icon="ui-icon-arrowrefresh-1-w"/>
+                                                    </p:submenu>
+                                                </p:slideMenu>
+                                            </h:form>
+                                        </li>
+                                        <li>                                    
+                                            <h:form>
+                                                <p:growl id="messages" showDetail="true"/>
+                                                <p:commandButton id="dynaButton" class="campomenu" value="Rotinas Mensais" type="button" icon="ui-icon-arrowrefresh-1-w"/>
+                                                <p:slideMenu backLabel="Voltar" overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="width:180px">
+                                                    <p:submenu label="Relatório">
+                                                        <p:menuitem value="Folha de Pagamento" actionListener="#{menuView.save}" update="messages" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="Fechamento Mensal" actionListener="#{menuView.update}" update="messages" icon="ui-icon-arrowrefresh-1-w"/>
+                                                    </p:submenu>
+                                                    <p:submenu label="Relatório">
+                                                        <p:menuitem value="Relatório" actionListener="#{menuView.delete}"  ajax="false" icon="ui-icon-close"/>
+                                                    </p:submenu>
+                                                </p:slideMenu>
+                                            </h:form>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <h2>Processos Mensais</h2>
+
+
+
+                                    <ul>
+                                        <li>    
+                                            <h:form>
+                                                <p:growl id="messages" showDetail="true"/>
+                                                <p:commandButton id="dynaButton" class="campomenu" value="Base de Dados" type="button" icon="ui-icon-person"/>
+                                                <p:slideMenu backLabel="Voltar" overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="width:180px">
+                                                    <p:submenu label="Tabelas">
+                                                        <p:menuitem value="Previdencia Social" actionListener="#{menuView.save}" update="messages" icon="ui-icon-person"/>
+                                                        <p:menuitem value="IRRF" actionListener="#{menuView.update}" update="messages" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="CBO" actionListener="#{menuView.update}" update="messages" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="Cargos" actionListener="#{menuView.update}" update="messages" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="Salário" actionListener="#{menuView.update}" update="messages" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="Horário" actionListener="#{menuView.update}" update="messages" icon="ui-icon-disk"/>
+                                                    </p:submenu>
+                                                    <p:submenu label="Trabalhadores">
+                                                        <p:menuitem value="Cadastro Trabalhadores" actionListener="#{menuView.delete}"  ajax="false" icon="ui-icon-person"/>
+                                                        <p:menuitem value="Relaçao de Trabalhadores" actionListener="#{menuView.delete}"  ajax="false" icon="ui-icon-person"/>
+                                                    </p:submenu>
+                                                    <p:submenu label="Dependentes">
+                                                        <p:menuitem value="Cadastro Dependentes" actionListener="#{menuView.delete}"  ajax="false" icon="ui-icon-person"/>
+                                                        <p:menuitem value="Relaçao Dependentes" actionListener="#{menuView.delete}"  ajax="false" icon="ui-icon-person"/>
+                                                    </p:submenu>
+
+                                                    <p:submenu label="Ficha de Registro">
+                                                        <p:menuitem value="Ficha de Financeira" actionListener="#{menuView.delete}"  ajax="false" icon="ui-icon-person"/>
+                                                    </p:submenu>
+                                                </p:slideMenu>
+                                            </h:form>
+                                        </li>
+                                        <li>
+                                            <h:form>
+                                                <p:growl id="messages" showDetail="true"/>
+                                                <p:commandButton id="dynaButton" class="campomenu" value="Rotinas Diárias" type="button" icon="ui-icon-disk"/>
+                                                <p:slideMenu backLabel="Voltar" overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="width:180px">
+                                                    <p:submenu label="Pagamento">
+                                                        <p:menuitem value="Lançamento" actionListener="#{menuView.save}" update="messages" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="Recibo de Pagamento" actionListener="#{menuView.update}" update="messages" icon="ui-icon-disk"/>
+                                                    </p:submenu>
+                                                    <p:submenu label="Imprimir">
+                                                        <p:menuitem value="Demonstrativo de Pagamento" actionListener="#{menuView.delete}"  ajax="false" icon="ui-icon-disk"/>
+                                                    </p:submenu>
+                                                </p:slideMenu>
+                                            </h:form>
+                                        </li>
+                                        <li>
+                                            <h:form>
+                                                <p:growl id="messages" showDetail="true"/>
+                                                <p:commandButton id="dynaButton" class="campomenu" value="Afastamento" type="button" icon="ui-icon-extlink"/>
+                                                <p:slideMenu backLabel="Voltar" overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="width:180px">
+                                                    <p:submenu label="Afastamento">
+                                                        <p:menuitem value="Novo Afastamento" actionListener="#{menuView.save}" update="messages" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="Lista Afastamentos" actionListener="#{menuView.update}" update="messages" icon="ui-icon-arrowrefresh-1-w"/>
+                                                    </p:submenu>
+                                                </p:slideMenu>
+                                            </h:form>
+                                        </li>
+                                        <li>                                    
+
+                                            <a href="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">Sair</a>
+
+                                        </li>
+
+
+                                    </ul>
+                                </li>
+                            </ul>
+
+                        </h:form>
+                    </div>
+
+                    <div style="clear:both">&nbsp;</div>
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            <p><p:graphicImage width="70px" height="30px" value="../recursos/images/logo_1.png"/> 2017 Sistema de Gestão de pessoas GRH-web</p>
+        </div>
+    </h:body>
+</html>

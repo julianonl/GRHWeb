@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="_template.xhtml">
+
+    <ui:define name="conteudo">
+        <div class="post">
+            <h3 class="title">Informe Os dados Da previdencia Social</h3>
+            <div class="entry">
+            </div>
+        </div>
+
+        <center> 
+            <h:form>
+
+
+                <p:panel id="panel" header="Tabela da Previdência Social" styleClass="painel3">  
+                    <p:messages id="msgs"/>  
+
+                    <div align="right">
+                        <h:outputLabel value="Validade: "/>
+                        <p:calendar size="8" value="#{controleTabelaINSS.inss.dataDeValidadeTabela}" />
+
+
+                    </div>
+                    <br></br>
+                    <br></br>
+                    <div align="left">
+                        <h:panelGrid columns="2" cellpadding="2">  
+
+                            <p:outputLabel value="Base Insalubridade: " for="insalubridade" />
+                            <p:inputText id="insalubridade"  value="#{controleTabelaINSS.inss.baseInsalubridade}"  
+                                         size="5" required="true" requiredMessage="Base insalubridade é obrigatorio">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                <p:ajax process="@this" update="msgs"  event="keyup"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="Salário Mínimo : " for="minimo" />
+                            <p:inputText id="minimo"  value="#{controleTabelaINSS.inss.salarioMinimo}"  
+                                         size="5" required="true" requiredMessage="Salário Mínimo é obrigatorio">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                <p:ajax process="@this" update="msgs"  event="keyup"/>
+                            </p:inputText>
+
+                        </h:panelGrid>
+                    </div>
+                    <br></br>
+                    <h:panelGrid columns="2" cellpadding="4" styleClass="painel1" >
+                        <p:panel header="Salario Família">
+                            <h:panelGrid columns="4" cellpadding="4">
+                                <p:outputLabel value="De: " for="de" />
+                                <p:inputText id="de"  value="#{controleTabelaINSS.inss.faixa1SalarioFamilia}"  
+                                             size="5" required="true" requiredMessage="Faixa 1 salário familia é obrigatorio">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msgs"  event="keyup"/>
+                                </p:inputText>
+
+                                <p:outputLabel value="Valor: " for="valor1" />
+                                <p:inputText id="valor1"  value="#{controleTabelaINSS.inss.valor1PagoSalarioFamilia}"  
+                                             size="5" required="true" requiredMessage="Valor 1 salário familia é obrigatorio">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msgs"  event="keyup"/>
+                                </p:inputText>
+
+                                <p:outputLabel value="De: " for="de2" />
+                                <p:inputText id="de2"  value="#{controleTabelaINSS.inss.faixa2SalarioFamilia}"  
+                                             size="5" required="true" requiredMessage="Faixa 2 salário familia é obrigatorio">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msgs"  event="keyup"/>
+                                </p:inputText>
+
+                                <p:outputLabel value="Valor: " for="valor2" />
+                                <p:inputText id="valor2"  value="#{controleTabelaINSS.inss.valor2PagoSalarioFamilia}"  
+                                             size="5" required="true" requiredMessage="Valor 2 salário familia é obrigatorio">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msgs"  event="keyup"/>
+                                </p:inputText>
+                            </h:panelGrid>
+                        </p:panel>
+
+
+                        <p:panel header="Previdência Social" styleClass="painel1">
+                            <h:panelGrid columns="3" cellpadding="4" >
+                                <p:row >
+                                    Faixa
+                                </p:row>
+                                <p:row >
+                                    Valor
+                                </p:row>
+
+                                <p:row >
+                                    Aliquota
+                                </p:row>
+
+                                <p:outputLabel value="01: " />
+
+                                <p:inputText id="faixa01"  value="#{controleTabelaINSS.inss.inssteto1}"  
+                                             size="5" required="true" requiredMessage="Faixa 1 salário familia é obrigatorio">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msgs"  event="keyup"/>
+                                </p:inputText>
+
+
+                                <p:inputText id="valor01"  value="#{controleTabelaINSS.inss.aliquotaInss1}"  
+                                             size="5" required="true" requiredMessage="Valor 1 salário familia é obrigatorio">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msgs"  event="keyup"/>
+                                </p:inputText>
+
+                                <p:outputLabel value="02: " />
+                                <p:inputText id="faixa02"  value="#{controleTabelaINSS.inss.inssteto2}"  
+                                             size="5" required="true" requiredMessage="Faixa 2 salário familia é obrigatorio">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msgs"  event="keyup"/>
+                                </p:inputText>
+
+
+                                <p:inputText id="valor02"  value="#{controleTabelaINSS.inss.aliquotaInss2}"  
+                                             size="5" required="true" requiredMessage="Valor 2 salário familia é obrigatorio">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msgs"  event="keyup"/>
+                                </p:inputText>
+
+                                <p:outputLabel value="03: " />
+                                <p:inputText id="faixa03"  value="#{controleTabelaINSS.inss.inssteto3}"  
+                                             size="5" required="true" requiredMessage="Faixa 2 salário familia é obrigatorio">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msgs"  event="keyup"/>
+                                </p:inputText>
+
+
+                                <p:inputText id="valor03"  value="#{controleTabelaINSS.inss.aliquotaInss3}"  
+                                             size="5" required="true" requiredMessage="Valor 2 salário familia é obrigatorio">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msgs"  event="keyup"/>
+                                </p:inputText>
+                            </h:panelGrid>
+                        </p:panel>
+
+                    </h:panelGrid> 
+
+
+
+                    <p:commandButton id="btn" value="Gravar" update="panel" actionListener="#{controleTabelaINSS.atualizaTabelaInss()}">		
+                    </p:commandButton>
+
+                </p:panel>  
+                <h:outputText>3</h:outputText>
+            </h:form>
+
+
+        </center> 
+    </ui:define>
+</ui:composition>
+

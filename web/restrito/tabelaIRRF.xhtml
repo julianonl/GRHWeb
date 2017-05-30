@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="_template.xhtml">
+
+    <ui:define name="conteudo">
+        <div class="post">
+            <h3 class="title">Informe Os dados De Imposto de Renda Retido na Fonte</h3>
+            <div class="entry">
+            </div>
+        </div>
+
+        <center> 
+            <h:form>
+
+
+                <p:panel id="panel" header="Tabela de IRRF" styleClass="painel3">  
+               <p:growl id="msg0" />
+
+                    <div align="right">
+                        <h:outputLabel value="Validade: "/>
+                        <p:calendar size="8" value="#{controleTabelaIRRF.irrf.dataDeValidadeTabela}" />
+
+
+                    </div>
+                    <br></br>
+                    <br></br>
+                    <div align="left">
+                        <h:panelGrid columns="2" cellpadding="2">  
+                            <p:outputLabel value="Dedução por dependente: " for="deducaoDep" />
+                            <p:inputText id="deducaoDep"  value="#{controleTabelaIRRF.irrf.valorDeducaoDependente}"  
+                                         size="5" required="true" requiredMessage="Faixa 1 IRRF é obrigatoria">
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                <p:ajax process="@this" update="msg0"  event="keyup"/>
+                            </p:inputText>
+
+                        </h:panelGrid>
+                    </div>
+                    <br></br>
+                    <h:panelGrid columns="2" cellpadding="4" styleClass="painel2">
+
+
+                        <p:panel header="IRRF" >
+                            <h:panelGrid columns="4" cellpadding="4" >
+                                <p:row>Faixa</p:row>
+                                <p:row>Teto</p:row>
+                                <p:row>Aliquota</p:row>
+                                <p:row>Deduzir em</p:row>
+                                <p:outputLabel value="01: " />
+                                <p:inputText id="faixa01"  value="#{controleTabelaIRRF.irrf.valorTeto1}"  
+                                             size="5" required="true" requiredMessage="Faixa 1 IRRF é obrigatoria">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msg0"  event="keyup"/>
+                                </p:inputText>
+
+
+                                <p:inputText id="valor01"  value="#{controleTabelaIRRF.irrf.aliquotaTeto1}"  
+                                             size="5" required="true" requiredMessage="Aliquota da faixa 1 do 1 IRRF é obrigatoria">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msg0"  event="keyup"/>
+                                </p:inputText>
+
+                                <p:inputText id="deducao1"  value="#{controleTabelaIRRF.irrf.deducaoTeto1}"  
+                                             size="5" required="true" requiredMessage="Dedução da faixa 1 do IRRF é obrigatoria">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msg0"  event="keyup"/>
+                                </p:inputText>
+
+                                <p:outputLabel value="02: " />
+                                <p:inputText id="faixa02"  value="#{controleTabelaIRRF.irrf.valorTeto2}"  
+                                             size="5" required="true" requiredMessage="Faixa 2 IRRF é obrigatoria">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msg0"  event="keyup"/>
+                                </p:inputText>
+
+
+                                <p:inputText id="valor02"  value="#{controleTabelaIRRF.irrf.aliquotaTeto2}"  
+                                             size="5" required="true" requiredMessage="Aliquota da faixa 2 do IRRF é obrigatoria">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msg0"  event="keyup"/>
+                                </p:inputText>
+
+                                <p:inputText id="deducao2"  value="#{controleTabelaIRRF.irrf.deducaoTeto2}"  
+                                             size="5" required="true" requiredMessage="Dedução da faixa 2 do IRRF é obrigatoria">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msg0"  event="keyup"/>
+                                </p:inputText>
+                                <p:outputLabel value="03: " />
+                                <p:inputText id="faixa03"  value="#{controleTabelaIRRF.irrf.valorTeto3}"  
+                                             size="5" required="true" requiredMessage="Faixa 3 IRRF é obrigatoria">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msg0"  event="keyup"/>
+                                </p:inputText>
+
+
+                                <p:inputText id="valor03"  value="#{controleTabelaIRRF.irrf.aliquotaTeto3}"  
+                                             size="5" required="true" requiredMessage="Aliquota da faixa 3 do IRRF é obrigatoria">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msg0"  event="keyup"/>
+                                </p:inputText>
+
+                                <p:inputText id="deducao3"  value="#{controleTabelaIRRF.irrf.deducaoTeto3}"  
+                                             size="5" required="true" requiredMessage="Dedução da faixa 3 do IRRF é obrigatoria">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msg0"  event="keyup"/>
+                                </p:inputText>
+                                <p:outputLabel value="04: " />
+                                <p:inputText id="faixa04"  value="#{controleTabelaIRRF.irrf.valorTeto4}"  
+                                             size="5" required="true" requiredMessage="Faixa 4 IRRF é obrigatoria">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msg0"  event="keyup"/>
+                                </p:inputText>
+
+
+                                <p:inputText id="valor04"  value="#{controleTabelaIRRF.irrf.aliquotaTeto4}"  
+                                             size="5" required="true" requiredMessage="Aliquota da faixa 4 do IRRF é obrigatoria">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msg0"  event="keyup"/>
+                                </p:inputText>
+
+                                <p:inputText id="deducao4"  value="#{controleTabelaIRRF.irrf.deducaoTeto4}"  
+                                             size="5" required="true" requiredMessage="Dedução da faixa 4 do IRRF é obrigatoria">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msg0"  event="keyup"/>
+                                </p:inputText>
+                                <p:outputLabel value="05: " />
+                                <p:inputText id="faixa05"  value="#{controleTabelaIRRF.irrf.valorTeto5}"  
+                                             size="5" required="true" requiredMessage="Faixa 1 IRRF é obrigatoria">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msg0"  event="keyup"/>
+                                </p:inputText>
+
+
+                                <p:inputText id="valor05"  value="#{controleTabelaIRRF.irrf.aliquotaTeto5}"  
+                                             size="5" required="true" requiredMessage="Aliquota da faixa 5 do IRRF é obrigatoria">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msg0"  event="keyup"/>
+                                </p:inputText>
+
+                                <p:inputText id="deducao5"  value="#{controleTabelaIRRF.irrf.deducaoTeto5}"  
+                                             size="5" required="true" requiredMessage="Dedução da faixa 5 do IRRF é obrigatoria">
+                                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                                    <p:ajax process="@this" update="msg0"  event="keyup"/>
+                                </p:inputText>
+
+
+
+                            </h:panelGrid>
+                        </p:panel>
+
+                    </h:panelGrid> 
+
+
+
+                    <p:commandButton id="btn" value="Gravar" image="ui-icon ui-icon-person" update="@form" actionListener="#{controleTabelaIRRF.atualizaTabelaIrrf()}">		
+                    </p:commandButton>
+
+                </p:panel>  
+                <h:outputText>3</h:outputText>
+            </h:form>
+
+
+        </center> 
+    </ui:define>
+</ui:composition>
+
