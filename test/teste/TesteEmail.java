@@ -1,59 +1,45 @@
-
 package teste;
 
-import email.EnviaEmail;
-import java.util.Properties;
-import javax.mail.Address;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import controle.ControleEmpresa;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.SimpleEmail;
+
 
 
 public class TesteEmail {
-    
-    public static void main (String args[]){
-    
- Properties props = new Properties();
-            /** Parâmetros de conexão com servidor Gmail */
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.socketFactory.port", "465");
-            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.port", "465");
 
-            Session session = Session.getDefaultInstance(props,
-                        new javax.mail.Authenticator() {
-                             protected PasswordAuthentication getPasswordAuthentication() 
-                             {
-                                   return new PasswordAuthentication("julianozagati@gmail.com", "966455sw8rdoi5");
-                             }
-                        });
-            /** Ativa Debug para sessão */
-            session.setDebug(true);
-            try {
+    public static void main(String args[])  {
 
-                  Message message = new MimeMessage(session);
-                  message.setFrom(new InternetAddress("julianozagati@gmail.com")); //Remetente
+        /*
+        
+        SimpleEmail email = new SimpleEmail();
 
-                  Address[] toUser = InternetAddress //Destinatário(s)
-                             .parse("julianozagati2016@gmail.com");  
-                  message.setRecipients(Message.RecipientType.TO, toUser);
-                  message.setSubject("Enviando email com JavaMail");//Assunto
-                  message.setText("Enviei este email utilizando JavaMail com minha conta GMail!");
-                  /**Método para enviar a mensagem criada*/
-                  Transport.send(message);
-                  System.out.println("Feito!!!");
-             } catch (MessagingException e) {
-                  throw new RuntimeException(e);
-            }
-            
-            
-            
-            
+
+	try {
+		email.setDebug(true);
+		email.setHostName("smtp.gmail.com");
+		email.setAuthentication("julianozagati2016@gmail.com","sw8rdoi5");			
+		email.setSSL(true);
+		email.addTo("juliano@copagra.coop.br");
+		email.setFrom("julianozagati2016@gmail.com");
+		email.setSubject("Teste");
+		email.setMsg("teste de envio");
+		email.send();
+
+	} catch (EmailException e) {
+
+		System.out.println(e.getMessage());
+
 	}
+        
+*/
+        
+        
+        ControleEmpresa empresa = new ControleEmpresa();
+        
+       //empresa.recuperarSenha("11.111.111/1111-11");
+        
+        
+        
+    }
 }
-

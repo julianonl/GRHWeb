@@ -1,7 +1,9 @@
 package controle;
 
 import dao.DAOCidade;
+import dao.DAOCnpj;
 import dao.DAOGenerico;
+import email.EnviaEmail;
 import entidade.Cep;
 import entidade.Cidade;
 import entidade.Cnpj;
@@ -50,6 +52,7 @@ public class ControleEmpresa implements Serializable {
     private BuscaCNPJ buscaCNPJ = new BuscaCNPJ();
     private Empregador empregador = new Empregador();
     private Cidade cidade = new Cidade();
+    private DAOCnpj daoCnpj = new DAOCnpj();
     private DAOGenerico dao = new DAOGenerico();
     private DAOCidade daoCidade = new DAOCidade();
     private String confereSenha;
@@ -255,18 +258,11 @@ public class ControleEmpresa implements Serializable {
             return empregador;
 
         } catch (Exception e) {
-             FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro na autenticação"+e, ""));
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro na autenticação" + e, ""));
         }
         return null;
     }
-
-        
-
-
-    
-
-    
 
     public void enviaLogonarca(FileUploadEvent event) {
         UploadedFile file = event.getFile();
@@ -399,4 +395,25 @@ public class ControleEmpresa implements Serializable {
             ioe.printStackTrace();
         }
     }
+
+    public void recuperarSenha() {
+        EnviaEmail recuperar = new EnviaEmail();
+        System.out.println(entidadeCnpj.getCnpj());
+
+        if (entidadeCnpj.getCnpj() != null) {
+            
+            empregador = daoCnpj.listarCondicString(entidadeCnpj.getCnpj());
+            
+            System.out.println(empregador.getResponsavelEmail());
+            recuperar.enviar(empregador);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Email enviado para " + empregador.getResponsavelEmail(), ""));
+
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Informe o numero do CNPJ", ""));
+
+        }
+    }
+
 }
