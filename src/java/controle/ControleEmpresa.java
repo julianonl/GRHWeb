@@ -41,7 +41,7 @@ import webService.BuscaCNPJ;
 import webService.BuscaCep;
 
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class ControleEmpresa implements Serializable {
 
     private Cep cepCnpj = new Cep();
@@ -194,15 +194,13 @@ public class ControleEmpresa implements Serializable {
             empregador.setCnpj(entidadeCnpj);
             dao.inserir(empregador);
             
-//             EnviaEmail cadastro = new EnviaEmail();
-// 
-//            
-//            cadastro.enviarEmail(
-//                    empregador.getResponsavelEmail(),
-//                    "GRHWeb - Bem vindo",
-//                    "Olá Sr(a) "+empregador.getResponsavelNome()+" seu cadastro no sistema GRHWeb foi concluido com sucesso.\n Usuário: "+ 
-//                            empregador.getCnpj().getCnpj()+"\nSenha: "+empregador.getCnpj().getSenha()+
-//                            "\n\n\n\n Atenciosamente\n\nEquipe GRHWeb" );
+             EnviaEmail cadastro = new EnviaEmail();
+            cadastro.enviarEmail(
+                    empregador.getResponsavelEmail(),
+                    "GRHWeb - Bem vindo",
+                    "Olá Sr(a) "+empregador.getResponsavelNome()+" seu cadastro no sistema GRHWeb foi concluido com sucesso.\n Usuário: "+ 
+                            empregador.getCnpj().getCnpj()+"\nSenha: "+empregador.getCnpj().getSenha()+
+                            "\n\n\n\n Atenciosamente\n\nEquipe GRHWeb" );
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Gravação efetuada com sucesso", ""));

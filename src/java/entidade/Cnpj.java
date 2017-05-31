@@ -24,7 +24,7 @@ public class Cnpj implements Serializable {
     @Column(name = "tipo", length = 50, nullable = false)
     private String tipo;
     @Temporal(javax.persistence.TemporalType.DATE)
-    @Column(name = "abertura", nullable = false)
+    @Column(name = "abertura", nullable = true)
     private Date abertura;
     @Column(name = "razaoSocial", length = 250, nullable = false)
     private String razaoSocial;
