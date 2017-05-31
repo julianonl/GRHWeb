@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -40,7 +41,7 @@ import webService.BuscaCNPJ;
 import webService.BuscaCep;
 
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class ControleEmpresa implements Serializable {
 
     private Cep cepCnpj = new Cep();
@@ -192,6 +193,16 @@ public class ControleEmpresa implements Serializable {
             empregador.setCep(cepResponsavel);
             empregador.setCnpj(entidadeCnpj);
             dao.inserir(empregador);
+            
+//             EnviaEmail cadastro = new EnviaEmail();
+// 
+//            
+//            cadastro.enviarEmail(
+//                    empregador.getResponsavelEmail(),
+//                    "GRHWeb - Bem vindo",
+//                    "Olá Sr(a) "+empregador.getResponsavelNome()+" seu cadastro no sistema GRHWeb foi concluido com sucesso.\n Usuário: "+ 
+//                            empregador.getCnpj().getCnpj()+"\nSenha: "+empregador.getCnpj().getSenha()+
+//                            "\n\n\n\n Atenciosamente\n\nEquipe GRHWeb" );
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Gravação efetuada com sucesso", ""));
@@ -250,7 +261,10 @@ public class ControleEmpresa implements Serializable {
             if (context instanceof SecurityContext) {
                 Authentication authentication = context.getAuthentication();
                 if (authentication instanceof Authentication) {
+                    
+                  
                     login = (((User) authentication.getPrincipal()).getUsername());
+                    
                 }
             }
 
@@ -398,22 +412,30 @@ public class ControleEmpresa implements Serializable {
 
     public void recuperarSenha() {
         EnviaEmail recuperar = new EnviaEmail();
-        System.out.println(entidadeCnpj.getCnpj());
+ 
 
         if (entidadeCnpj.getCnpj() != null) {
-            
             empregador = daoCnpj.listarCondicString(entidadeCnpj.getCnpj());
-            
             System.out.println(empregador.getResponsavelEmail());
-            recuperar.enviar(empregador);
+            
+            recuperar.enviarEmail(
+                    
+                    empregador.getResponsavelEmail(),
+                    "GRHWeb - Solicitação de recupeção de senha",
+                    "Olá Sr(a) "+empregador.getResponsavelNome()+" sua senha é: "+ empregador.getCnpj().getSenha()+
+                            "\n\n\n\n Atenciosamente\n\nEquipe GRHWeb"
+                    );
+           
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Email enviado para " + empregador.getResponsavelEmail(), ""));
 
         } else {
+
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Informe o numero do CNPJ", ""));
 
         }
     }
-
+    
+  
 }

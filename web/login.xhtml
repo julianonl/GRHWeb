@@ -19,13 +19,32 @@
                             closeLabel="Fechar" backspaceLabel="Voltar" size="15" clearLabel="Limpar" title="Informe a senha para acessar o sistema"/> 
             </h:panelGrid>
             <h:commandButton value="Entrar" />
-                   
-            
         </form>
 
 
-                   
-     
+
+        <h:form id="formulario">
+
+
+            <p:dialog header="Recuperar Senha" widgetVar="recSenha" showEffect="explode" hideEffect="fade" height="100">
+                <p:fieldset toggleable="true" >
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Usuário: " />
+                        <p:inputMask mask="99.999.999/9999-99" value="#{controleEmpresa.entidadeCnpj.cnpj}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{controleEmpresa.recuperarSenha()}" value="Recuperar Senha" update="@form"/>
+
+                </p:fieldset>
+
+            </p:dialog>
+
+            <p:commandLink value="Esqueci minha senha" onclick="PF('recSenha').show()"/>
+
+
+
+
+        </h:form>
+
     </ui:define>
 
 </ui:composition>

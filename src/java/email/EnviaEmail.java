@@ -1,33 +1,53 @@
 package email;
 
-import entidade.Empregador;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.*;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 public class EnviaEmail {
-    
-    SimpleEmail email = new SimpleEmail();
- 
 
-    public void enviar(Empregador empregador) {
+     
+    public void enviarEmail(String destinatario, String assunto, String conteudo) {
+
+        Properties props = new Properties();  
+        props.put("mail.smtp.host", "smtp.gmail.com");  
+        props.put("mail.smtp.auth", "true");  
+        props.put("mail.debug", "true");  
+        props.put("mail.smtp.port", 25);  
+        props.put("mail.smtp.socketFactory.port", 25);  
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.transport.protocol", "smtp");
+        Session mailSession = null;
+
+        mailSession = Session.getInstance(props,  
+                new javax.mail.Authenticator() {  
+            protected PasswordAuthentication getPasswordAuthentication() {  
+                return new PasswordAuthentication("julianozagati2016@gmail.com", "sw8rdoi5");  
+            }  
+        });  
+
 
         try {
-            email.setDebug(true);
-            email.setHostName("smtp.gmail.com");
-            email.setAuthentication("julianozagati2016@gmail.com", "sw8rdoi5");
-            email.setSSL(true);
-            email.addTo(empregador.getResponsavelEmail());
-            email.setFrom("julianozagati2016@gmail.com");
-            email.setSubject("GRHWeb - Solicitação de recupeção de senha");
-            email.setMsg("Ola Sr(a) "+empregador.getResponsavelNome()+" \n sua senha e: "+empregador.getCnpj().getSenha());
-            email.send();
 
-        } catch (EmailException e) {
+            Transport transport = mailSession.getTransport();
 
-            System.out.println(e.getMessage());
+            MimeMessage menssagem = new MimeMessage(mailSession);
 
+            menssagem.setSubject(assunto);
+            menssagem.setFrom(new InternetAddress("julianozagati2016@gmail.com"));
+            String []to = new String[]{destinatario};
+            menssagem.addRecipient(Message.RecipientType.TO, new InternetAddress(to[0]));
+            menssagem.setContent(conteudo,"text/html");
+            transport.connect();
+
+            transport.sendMessage(menssagem,menssagem.getRecipients(Message.RecipientType.TO));
+            transport.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
     }
 
+
 }
+   

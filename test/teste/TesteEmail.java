@@ -1,6 +1,8 @@
 package teste;
 
 import controle.ControleEmpresa;
+import email.EnviaEmail;
+import entidade.Cnpj;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 
@@ -35,9 +37,15 @@ public class TesteEmail {
 */
         
         
-        ControleEmpresa empresa = new ControleEmpresa();
-        
-       //empresa.recuperarSenha("11.111.111/1111-11");
+//        ControleEmpresa empresa = new ControleEmpresa();
+//        Cnpj cnpj = new Cnpj();
+//        cnpj.setCnpj("11.111.111/1111-11");
+//        
+//        empresa.setEntidadeCnpj(cnpj);
+//        
+//       empresa.recuperarSenha();
+
+       
         
         
         

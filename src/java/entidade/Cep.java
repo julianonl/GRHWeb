@@ -15,15 +15,15 @@ public class Cep implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "cep", length = 20, nullable = false)
+    @Column(name = "cep", length = 20, nullable = true)
     private String cep;
-    @Column(name = "logradouro", length = 250, nullable = false)
+    @Column(name = "logradouro", length = 250, nullable = true)
     private String logradouro;
-    @Column(name = "numeroEndereco", length = 20, nullable = false)
+    @Column(name = "numeroEndereco", length = 20, nullable = true)
     private String numeroEndereco;
     @Column(name = "complemento", length = 200, nullable = true)
     private String complemento;
-    @Column(name = "bairro", length = 100, nullable = false)
+    @Column(name = "bairro", length = 100, nullable = true)
     private String bairro;
     @ManyToOne
     private Cidade cidade;
