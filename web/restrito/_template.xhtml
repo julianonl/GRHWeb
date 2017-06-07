@@ -17,10 +17,10 @@
 
             <h:form >
 
-                <h:dataTable value="#{controleEmpresa.procuraEmpresa()}" var="item">
+                <h:dataTable value="#{controleDadosTemplate.procuraEmpresa()}" var="item">
                     <h:column>
             
-                        <h:commandLink id="logo" action="alteraLogoMarca.xhtml"><p:graphicImage value="#{controleEmpresa.buscarLogomarca()}" class="logo"/></h:commandLink>
+                        <h:commandLink id="logo" action="alteraLogoMarca.xhtml"><p:graphicImage value="#{controleDadosTemplate.buscarLogomarca()}" class="logo"/></h:commandLink>
                     
                            <p:tooltip id="dica" for="logo" value="Click para alterar a Imagem"
                showEffect="clip" hideEffect="explode"/>
@@ -33,7 +33,7 @@
                     </h:column>
                 </h:dataTable>
 
-                <h:dataTable value="#{controleEmpresa.procuraEmpresa()}" var="item">
+                <h:dataTable value="#{controleDadosTemplate.procuraEmpresa()}" var="item">
                     <h:column>
                         CNPJ: #{item.cnpj.cnpj} - Responsavel: #{item.responsavelNome}
                     </h:column>

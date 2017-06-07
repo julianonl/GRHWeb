@@ -410,25 +410,17 @@ public class ControleEmpresa implements Serializable {
 
     public void recuperarSenha() {
         EnviaEmail recuperar = new EnviaEmail();
- 
-
         if (entidadeCnpj.getCnpj() != null) {
             empregador = daoCnpj.listarCondicString(entidadeCnpj.getCnpj());
-            System.out.println(empregador.getResponsavelEmail());
-            
+
             recuperar.enviarEmail(
-                    
                     empregador.getResponsavelEmail(),
                     "GRHWeb - Solicitação de recupeção de senha",
                     "Olá Sr(a) "+empregador.getResponsavelNome()+" sua senha é: "+ empregador.getCnpj().getSenha()+
                             "\n\n\n\n Atenciosamente\n\nEquipe GRHWeb"
                     );
-           
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Email enviado para " + empregador.getResponsavelEmail(), ""));
-
+                    empregador = new Empregador();
         } else {
-
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Informe o numero do CNPJ", ""));
 

@@ -199,8 +199,8 @@
 
                 </p:tab>
             </p:tabView>
-            
-             
+
+
         </h:form>
 
         <h:form enctype="multipart/form-data" > 
@@ -219,9 +219,9 @@
             <p:messages  severity="info" escape="false" showDetail="true" 
                          autoUpdate="true" closable="true"/>
         </h:form>
-        
+
         <h:form id="formRevisar">
-            
+
             <p:dialog header="Revisar - Concluir" widgetVar="revisar" showEffect="explode" hideEffect="fade" width="800px" height="600">
                 <p:fieldset toggleable="true" id="revisar">
                     <p:growl id="msg0" />
@@ -313,10 +313,14 @@
 
                 </p:fieldset>
             </p:dialog>
-            
+
         </h:form>
 
-  
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <img src="recursos/images/img/loader.gif" alt="220px" width="250px"/>
+        </p:dialog>
 
     </ui:define>
 
