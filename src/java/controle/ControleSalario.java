@@ -40,8 +40,6 @@ public class ControleSalario implements Serializable {
         this.salario = salario;
     }
 
-    
-    
     public Empregador procuraEmpresa() {
         Empregador empregador = new Empregador();
         if (context instanceof SecurityContext) {
@@ -55,8 +53,7 @@ public class ControleSalario implements Serializable {
     }
     
        public List<TabelaSalario> buscarSalario() {
-
-        return listaSalario = dao.listarCondic(TabelaSalario.class, "empregador_id", procuraEmpresa().getId());
+       return listaSalario = dao.listarCondic(TabelaSalario.class, "empregador_id", procuraEmpresa().getId());
     }
        
        public void limparSalario() {
@@ -66,14 +63,12 @@ public class ControleSalario implements Serializable {
        
         public String adicionaSalario() {
         if (salario.getId() == null || salario.getId() == 0) {
-            
             salario.setEmpregador(procuraEmpresa());
             dao.inserir(salario);
             salario = new TabelaSalario();
 
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Salario adicionado com sucesso", ""));
-
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Nova faixa Salarial adicionada com sucesso", ""));
         } else {
             atualizaSalario();
         }
@@ -94,5 +89,19 @@ public class ControleSalario implements Serializable {
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro"+ id+" eliminado com sucesso", ""));
 
     }
+      
+          public void excluirSalario() {
+              
+        dao.remover(salario.getClass(), salario.getId());
+
+    }
+          
+          public String atualizarSalario() {
+              
+              dao.alterar(salario);
+          
+          return null;
+          }
+      
 
 }

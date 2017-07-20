@@ -1,13 +1,21 @@
 package controle;
 
+import dao.DAOCnpj;
 import dao.DAOGenerico;
 import entidade.Empregador;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,8 +46,9 @@ public class ControleDadosTemplate {
                 }
             }
 
-            List<Empregador> empregador = dao.listarCondicao(Empregador.class, "cnpj.cnpj", login);
-            return empregador;
+            List<Empregador> listaEmpregador = dao.listarCondicao(Empregador.class, "cnpj.cnpj", login);
+
+            return listaEmpregador;
 
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -66,6 +75,51 @@ public class ControleDadosTemplate {
         }
         return controle;
 
+    }
+
+    public void enviaLogonarca(FileUploadEvent event) {
+        UploadedFile file = event.getFile();
+        FacesContext aFacesContext = FacesContext.getCurrentInstance();
+        ServletContext context = (ServletContext) aFacesContext.getExternalContext().getContext();
+        String realPath = context.getRealPath("/");
+        String controleNome = file.getFileName();
+        String caminho = realPath + "recursos" + File.separator + "images" + File.separator + controleNome;
+        String caminhoAlterado = caminho.replace("\\build", "");
+
+        try {
+            FileInputStream in = (FileInputStream) file.getInputstream();
+            FileOutputStream out = new FileOutputStream(caminhoAlterado);
+
+            byte[] buffer = new byte[(int) file.getSize()];
+            int contador = 0;
+
+            while ((contador = in.read(buffer)) != -1) {
+                out.write(buffer, 0, contador);
+            }
+            in.close();
+            out.close();
+
+            List<Empregador> lista = new ArrayList<Empregador>();
+            lista = procuraEmpresa();
+            String controle;
+
+            for (Empregador empregador1 : lista) {
+                empregador.setId(empregador1.getId());
+
+            }
+            empregador = (Empregador) dao.buscarPorId(Empregador.class, empregador.getId());
+
+            empregador.setLogoMarca(controleNome);
+
+            dao.alterar(empregador);
+
+            FacesMessage msg = new FacesMessage("A Logomarca ", file.getFileName() + " foi alterada com sucesso.");
+            FacesContext.getCurrentInstance().addMessage("msgUpdate", msg);
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+
+        }
     }
 
 }

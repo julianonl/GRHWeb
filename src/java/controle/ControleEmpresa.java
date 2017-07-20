@@ -23,7 +23,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -58,6 +57,7 @@ public class ControleEmpresa implements Serializable {
     private DAOCidade daoCidade = new DAOCidade();
     private String confereSenha;
     private String login;
+    private DAOCnpj daocnpj = new DAOCnpj();
     SecurityContext context = SecurityContextHolder.getContext();
     List<Cidade> cidades = new ArrayList<Cidade>();
     List<Cep> listaCep = new ArrayList<Cep>();
@@ -251,18 +251,14 @@ public class ControleEmpresa implements Serializable {
     public void setConfereSenha(String confereSenha) {
         this.confereSenha = confereSenha;
     }
+    
 
     public List<Empregador> procuraEmpresa() {
-
         try {
-
             if (context instanceof SecurityContext) {
                 Authentication authentication = context.getAuthentication();
                 if (authentication instanceof Authentication) {
-                    
-                  
                     login = (((User) authentication.getPrincipal()).getUsername());
-                    
                 }
             }
 
@@ -276,39 +272,7 @@ public class ControleEmpresa implements Serializable {
         return null;
     }
 
-    public void enviaLogonarca(FileUploadEvent event) {
-        UploadedFile file = event.getFile();
-        FacesContext aFacesContext = FacesContext.getCurrentInstance();
-        ServletContext context = (ServletContext) aFacesContext.getExternalContext().getContext();
-        String realPath = context.getRealPath("/");
-        String controleNome = file.getFileName();
-        String caminho = realPath + "recursos" + File.separator + "images" + File.separator + controleNome;
-        String caminhoAlterado = caminho.replace("\\build", "");
-
-        try {
-            FileInputStream in = (FileInputStream) file.getInputstream();
-            FileOutputStream out = new FileOutputStream(caminhoAlterado);
-
-            byte[] buffer = new byte[(int) file.getSize()];
-            int contador = 0;
-
-            while ((contador = in.read(buffer)) != -1) {
-                out.write(buffer, 0, contador);
-            }
-            in.close();
-            out.close();
-
-            empregador.setLogoMarca(controleNome);
-            dao.alterar(empregador);
-
-            FacesMessage msg = new FacesMessage("A Logomarca ", file.getFileName() + " foi alterada com sucesso.");
-            FacesContext.getCurrentInstance().addMessage("msgUpdate", msg);
-
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-
-        }
-    }
+    
 
     public String buscarLogomarca() {
         List<Empregador> lista = new ArrayList<Empregador>();

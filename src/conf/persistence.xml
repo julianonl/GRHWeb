@@ -14,6 +14,7 @@
     <class>entidade.Nacionalidade</class>
     <class>entidade.Pessoa</class>
     <class>entidade.TipoDependente</class>
+    <class>entidade.TabelaHorario</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/grhweb?zeroDateTimeBehavior=convertToNull"/>

@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="_template.xhtml">
+
+    <ui:define name="conteudo">
+        <div class="post">
+            <h3 class="title">Consulta Tabela Horário</h3>
+            <div class="entry">
+            </div>
+        </div>
+
+        <center> 
+
+
+
+            <h:form id="formHorario">
+
+                <h:outputScript name="locale-primefaces.js" library="js" />
+
+                <p:dataTable styleClass="tabela" var="jornada" value="#{controleHorario.buscarHorario()}" widgetVar="busca" paginator="true" rows="15" emptyMessage="Nenhum registro encontrado"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}
+                             {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15,50" >
+                    <f:facet name="header">
+
+                        <div align="left">
+                            <p:commandButton id="cadastr" icon="ui-icon-plus" onclick="PF('incluirHorario').show()">
+                                <p:tooltip id="dica01" for="cadastr" value="Adicionar nova Jornada de Trabalho" showEffect="clip" hideEffect="explode" style="color: #149bdf"/>
+                            </p:commandButton>
+
+                        </div>
+
+
+                    </f:facet>
+                    <f:facet name="header">
+                        Lista de Jornadas Cadastradas
+                    </f:facet>
+                    <p:column headerText="Entrada" style="width:120px; text-align: center">
+                        <h:outputText value="#{jornada.entrada1}" >
+                        <f:convertDateTime pattern="HH:mm" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Saída Intervalo">
+                        <h:outputText value="#{jornada.saida1}">
+                        <f:convertDateTime pattern="HH:mm" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Retorno Intervalo">
+                        <h:outputText value="#{jornada.entrada2}">
+                        <f:convertDateTime pattern="HH:mm" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Retorno Intervalo">
+                        <h:outputText value="#{jornada.saida2}">
+                            <f:convertDateTime pattern="HH:mm" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="" style="width:70px;text-align: center">
+
+                        <p:commandButton id="remover" icon="ui-icon-trash" update="@form" actionListener="#{controleHorario.excluirJornada(jornada.id)}">
+                            <p:tooltip id="dicas03" for="remover" value="Excluir" showEffect="clip" hideEffect="explode" style="color: #149bdf"/>
+                        </p:commandButton>
+
+                    </p:column>
+                </p:dataTable>
+
+            </h:form>
+
+
+            <h:form>
+                <p:dialog header="Incluir nova Jornada" widgetVar="incluirHorario" showEffect="explode" hideEffect="fade" height="200">
+                    <p:fieldset toggleable="true" >
+                        <p:growl id="msg0" />
+                        <p:panelGrid columns="2">
+
+                            <p:outputLabel value="Entrada: " for="entrada1"/>
+                            <p:calendar id="entrada1" size="40" value="#{controleHorario.horario.entrada1}"
+                                        required="true" requiredMessage="O campo [Entrada] é obrigatório" 
+                                        pattern="HH:mm" timeOnly="true" showOn="button">
+                            </p:calendar>
+
+                            <p:outputLabel value="Saída Intervalo: " for="saida1"/>
+                            <p:calendar id="saida1" size="40" value="#{controleHorario.horario.saida1}"
+                                        required="true" requiredMessage="O campo [Saída Intervalo] é obrigatório" 
+                                        pattern="HH:mm" timeOnly="true" showOn="button">
+                            </p:calendar>
+
+                            <p:outputLabel value="Retorno Intervalo: " for="entrada2"/>
+                            <p:calendar id="entrada2" size="40" value="#{controleHorario.horario.entrada2}"
+                                        required="true" requiredMessage="O campo [Retorno Intervalo] é obrigatório" 
+                                        pattern="HH:mm" timeOnly="true" showOn="button">
+                            </p:calendar>
+
+                            <p:outputLabel value="Saída: " for="saida2"/>
+                            <p:calendar id="saida2" size="40" value="#{controleHorario.horario.saida2}"
+                                        required="true" requiredMessage="O campo [Saída] é obrigatório" 
+                                        pattern="HH:mm" timeOnly="true" showOn="button">
+                            </p:calendar>
+
+                            <p:commandButton value="Gravar" actionListener="#{controleHorario.adicionaHorario()}" image="ui-icon ui-icon-person" update="@form,:formHorario"/>
+                            <p:commandButton value="Cancelar" actionListener="#{controleHorario.limparHorario()}" image="ui-icon ui-icon-close" update="@form,:formHorario"/>
+                        </p:panelGrid>
+                    </p:fieldset>
+                </p:dialog>
+
+            </h:form>
+        </center> 
+    </ui:define>
+</ui:composition>
+

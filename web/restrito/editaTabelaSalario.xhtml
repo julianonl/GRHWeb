@@ -9,7 +9,7 @@
 
     <ui:define name="conteudo">
         <div class="post">
-            <h3 class="title">Consulta Tabela Salários</h3>
+            <h3 class="title">Consulta Salários cadastrados</h3>
             <div class="entry">
             </div>
         </div>
@@ -18,14 +18,15 @@
 
 
 
-            <h:form id="formSalario">
+            <h:form id="tabelaSalario">
 
 
-                <p:dataTable styleClass="tabela" var="salario" value="#{controleSalario.buscarSalario()}" widgetVar="busca" paginator="true" rows="15" emptyMessage="Nenhum registro encontrado"
+                <p:dataTable id="tabela" styleClass="tabela" var="salario" value="#{controleSalario.buscarSalario()}" widgetVar="busca" paginator="true" rows="15" emptyMessage="Nenhum registro encontrado"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}
                              {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="5,10,15,50" >
-                    <f:facet name="header">
+
+                 <f:facet name="header">
 
                         <div align="left">
                             <p:commandButton id="cadast" icon="ui-icon-plus" onclick="PF('incluirSalario').show()">
@@ -36,20 +37,17 @@
 
 
                     </f:facet>
-                    <f:facet name="header">
-                        Lista de Salários Cadastrados
-                    </f:facet>
-                    <p:column headerText="Faixa" style="width:120px; text-align: center">
-                        <h:outputText value="#{salario.id}" />
+
+                    <p:column headerText="Faixa" sortBy="#{salario.id}" style="width:120px;text-align: center"
+                              filterBy="#{salario.id}" >
+                        <h:outputText value="#{salario.id}"/>
                     </p:column>
 
-                    <p:column headerText="Salário">
-                        <h:outputText value="#{salario.valor}"/>
+                    <p:column headerText="Salário" sortBy="#{salario.valor}" style="width:120px;text-align: center"
+                              filterBy="#{salario.valor}">
+                        <h:outputText value="#{salario.valor}" />
                     </p:column>
 
-
-                    
-                    
                     <p:column headerText="Editar" sortBy="#{salario.valor}" style="width:70px;text-align: center">
                         <p:commandButton style="background:  #149bdf" action="#{controleSalario.setSalario(salario)}" update=":formEditar:painel" onclick="PF('editarSalario').show()" icon="ui-icon-search" title="Editar">
                             <f:param value="#{salario}"  />  
@@ -61,34 +59,11 @@
 
                         </p:commandButton>
                     </p:column>
-                    
+
+
+
                 </p:dataTable>
-
-            </h:form>
-
-
-            <h:form>
-                <p:dialog header="Incluir nova Faixa Salarial" widgetVar="incluirSalario" showEffect="explode" hideEffect="fade" height="200">
-                    <p:fieldset toggleable="true" >
-                        <p:growl id="msg0" />
-                        <p:panelGrid columns="2">
-
-                            <p:outputLabel value="Salário: " for="nomeSal"/>
-                            <p:inputText id="nomeSal" size="40" value="#{controleSalario.salario.valor}"
-                                         required="true" requiredMessage="O campo [Salário] é obrigatório" >
-                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
-                            </p:inputText>
-
-                            <p:commandButton value="Gravar" actionListener="#{controleSalario.adicionaSalario()}" image="ui-icon ui-icon-person" update="@form,:formSalario"/>
-                            <p:commandButton value="Cancelar" actionListener="#{controleSalario.limparSalario()}" image="ui-icon ui-icon-close" update="@form,:formSalario"/>
-                        </p:panelGrid>
-                    </p:fieldset>
-                </p:dialog>
-
-         
-            
-            
-            <p:dialog header="Deseja excluir o Salário Selecionado?" modal="true" widgetVar="excluirSalario" showEffect="explode" hideEffect="fade" height="200">
+                <p:dialog header="Deseja excluir o Salário Selecionado?" modal="true" widgetVar="excluirSalario" showEffect="explode" hideEffect="fade" height="100">
 
                     <p:panel>
                         <p:panelGrid columns="2" id="painelDialog">
@@ -100,9 +75,9 @@
 
                         <br></br>
 
-                        <p:commandButton value="Excluir" style="background:  #1e94d2" update="@form,:formSalario" action="#{controleSalario.excluirSalario()}" icon="ui-icon-trash" title="Remover">
+                        <p:commandButton value="Excluir" style="background:  #1e94d2" update="@form" action="#{controleSalario.excluirSalario()}" icon="ui-icon-trash" title="Remover">
                         </p:commandButton>
-                        <p:commandButton value="Cancelar" style="background:  #1e94d2" update="@form,:formSalario" icon="ui-icon-close" title="Cancelar">
+                        <p:commandButton value="Cancelar" style="background:  #1e94d2" update="@form" icon="ui-icon-close" title="Cancelar">
                         </p:commandButton>
 
                     </p:panel>
@@ -124,7 +99,7 @@
                                          required="true" requiredMessage="O campo [Salário] é obrigatório" >
                             </p:inputText>
                            
-                            <p:commandButton value="Gravar" actionListener="#{controleSalario.atualizarSalario()}" image="ui-icon ui-icon-person" update="@form,:formSalario"/>
+                            <p:commandButton value="Gravar" actionListener="#{controleSalario.atualizarSalario()}" image="ui-icon ui-icon-person" update="@form,:tabelaSalario"/>
                             <p:commandButton value="Cancelar" actionListener="#{controleSalario.limparSalario()}" image="ui-icon ui-icon-close" update="@form"/>
                             <h:inputHidden value="#{controleSalario.salario.id}"/>
                         </p:panelGrid>
@@ -132,7 +107,9 @@
                 </p:dialog>
 
             </h:form>
-            
+
+
+
         </center> 
     </ui:define>
 </ui:composition>
