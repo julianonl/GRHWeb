@@ -42,10 +42,6 @@ public class Pessoa implements Serializable {
     @Column(name = "bairro", length = 150, nullable = true)
     private String bairro;
     
-
-    @ManyToOne
-    private Cidade cidade;
-
     @Column(name = "numeroRg", length = 20, nullable = true)
     private String numeroRg;
 
@@ -105,7 +101,8 @@ public class Pessoa implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataDeCadastro;
     @Column(name = "CEP")
-    private String cep;
+    @ManyToOne
+    private Cep cep;
 
     public Long getId() {
         return id;
@@ -307,13 +304,7 @@ public class Pessoa implements Serializable {
         this.dataDeCadastro = dataDeCadastro;
     }
 
-    public String getCep() {
-        return cep;
-    }
 
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
     
     
 

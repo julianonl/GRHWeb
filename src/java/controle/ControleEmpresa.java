@@ -8,9 +8,7 @@ import entidade.Cep;
 import entidade.Cidade;
 import entidade.Cnpj;
 import entidade.Empregador;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import imagensUpload.ImagenUpload;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -26,12 +24,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.servlet.ServletContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -193,14 +189,14 @@ public class ControleEmpresa implements Serializable {
             empregador.setCep(cepResponsavel);
             empregador.setCnpj(entidadeCnpj);
             dao.inserir(empregador);
-            
-             EnviaEmail cadastro = new EnviaEmail();
+
+            EnviaEmail cadastro = new EnviaEmail();
             cadastro.enviarEmail(
                     empregador.getResponsavelEmail(),
                     "GRHWeb - Bem vindo",
-                    "Olá Sr(a) "+empregador.getResponsavelNome()+" seu cadastro no sistema GRHWeb foi concluido com sucesso.\n Usuário: "+ 
-                            empregador.getCnpj().getCnpj()+"\nSenha: "+empregador.getCnpj().getSenha()+
-                            "\n\n\n\n Atenciosamente\n\nEquipe GRHWeb" );
+                    "Olá Sr(a) " + empregador.getResponsavelNome() + " seu cadastro no sistema GRHWeb foi concluido com sucesso.\n Usuário: "
+                    + empregador.getCnpj().getCnpj() + "\nSenha: " + empregador.getCnpj().getSenha()
+                    + "\n\n\n\n Atenciosamente\n\nEquipe GRHWeb");
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Gravação efetuada com sucesso", ""));
@@ -224,7 +220,6 @@ public class ControleEmpresa implements Serializable {
     }
 
     public String addPessoa() {
-
         Date date = new Date();
         if (empregador.getId() == null || empregador.getId() == 0) {
             empregador.setDataDeCadastro(date);
@@ -251,7 +246,6 @@ public class ControleEmpresa implements Serializable {
     public void setConfereSenha(String confereSenha) {
         this.confereSenha = confereSenha;
     }
-    
 
     public List<Empregador> procuraEmpresa() {
         try {
@@ -272,8 +266,6 @@ public class ControleEmpresa implements Serializable {
         return null;
     }
 
-    
-
     public String buscarLogomarca() {
         List<Empregador> lista = new ArrayList<Empregador>();
         lista = procuraEmpresa();
@@ -286,9 +278,9 @@ public class ControleEmpresa implements Serializable {
         empregador = (Empregador) dao.buscarPorId(Empregador.class, empregador.getId());
 
         if (empregador.getLogoMarca() != null) {
-            controle = "../recursos/images/" + empregador.getLogoMarca();
+            controle = "../recursos/images/logo/" + empregador.getLogoMarca();
         } else {
-            controle = "../recursos/images/semLogo.jpg";
+            controle = "../recursos/images/logo/semLogo.jpg";
         }
         return controle;
 
@@ -343,33 +335,9 @@ public class ControleEmpresa implements Serializable {
     }
 
     public void salvarLogonarca(FileUploadEvent event) {
-        UploadedFile file = event.getFile();
-        FacesContext aFacesContext = FacesContext.getCurrentInstance();
-        ServletContext context = (ServletContext) aFacesContext.getExternalContext().getContext();
-        String realPath = context.getRealPath("/");
-        String controleNome = file.getFileName();
-        String caminho = realPath + "recursos" + File.separator + "images" + File.separator + controleNome;
-        String caminhoAlterado = caminho.replace("\\build", "");
+        ImagenUpload imagen = new ImagenUpload();
+        empregador.setLogoMarca(imagen.salvarLogonarca(event, "logo"));
 
-        try {
-            FileInputStream in = (FileInputStream) file.getInputstream();
-            FileOutputStream out = new FileOutputStream(caminhoAlterado);
-
-            byte[] buffer = new byte[(int) file.getSize()];
-            int contador = 0;
-
-            while ((contador = in.read(buffer)) != -1) {
-                out.write(buffer, 0, contador);
-            }
-            in.close();
-            out.close();
-
-            empregador.setLogoMarca(controleNome);
-            System.out.println(controleNome);
-
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
     }
 
     public void recuperarSenha() {
@@ -380,16 +348,15 @@ public class ControleEmpresa implements Serializable {
             recuperar.enviarEmail(
                     empregador.getResponsavelEmail(),
                     "GRHWeb - Solicitação de recupeção de senha",
-                    "Olá Sr(a) "+empregador.getResponsavelNome()+" sua senha é: "+ empregador.getCnpj().getSenha()+
-                            "\n\n\n\n Atenciosamente\n\nEquipe GRHWeb"
-                    );
-                    empregador = new Empregador();
+                    "Olá Sr(a) " + empregador.getResponsavelNome() + " sua senha é: " + empregador.getCnpj().getSenha()
+                    + "\n\n\n\n Atenciosamente\n\nEquipe GRHWeb"
+            );
+            empregador = new Empregador();
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Informe o numero do CNPJ", ""));
 
         }
     }
-    
-  
+
 }

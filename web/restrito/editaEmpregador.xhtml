@@ -1,0 +1,251 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="_template.xhtml">
+
+    <ui:define name="conteudo">
+
+        <center> 
+            <h:form id="formAtualiza">
+
+
+                <p:panel id="panel" header="Dados do Empregador" styleClass="painel3" style="font-size: 10px">  
+
+
+                    <p:messages id="msgs"/>  
+
+
+
+                    <p:fieldset legend="Dados cadastrais" toggleable="true" toggleSpeed="500" style="margin-bottom:10px">     
+
+                        <h:panelGrid columns="2" cellpadding="4">
+
+                            <h:panelGrid columns="1" cellpadding="4">
+
+                                <p:graphicImage value="#{controleCnpj.buscarLogomarca()}" class="logo"/>
+
+                               
+                                <p:commandButton id="cad" value="Alterar" onclick="PF('mudarImagem').show()">
+                                        <p:tooltip id="dica" for="cad" value="Alterar Logomarca" showEffect="clip" hideEffect="explode" style="color: #149bdf"/>
+                                    </p:commandButton>
+                              
+
+
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="4" cellpadding="4">
+                                <p:outputLabel value="CNPJ" for="cnpj"/>
+                                <p:inputMask mask="99.999.999/9999-99" id="cnpj" size="30" value="#{controleCnpj.empregador.cnpj.cnpj}"
+                                             required="true" requiredMessage="O campo [CNPJ] é obrigatório">
+                                    <f:validator validatorId="cnpjValidator" />
+                                </p:inputMask>
+
+                                <p:outputLabel value="Tipo" for="tipo"/>
+                                <p:inputText id="tipo" size="20" value="#{controleCnpj.empregador.cnpj.tipo}"
+                                             required="true" requiredMessage="O campo [Tipo] é obrigatório"
+                                             onkeyup="this.value = this.value.toUpperCase()">
+                                </p:inputText>
+
+                                <p:outputLabel value="Razão Social" for="razao"/>
+                                <p:inputText id="razao" size="30" value="#{controleCnpj.empregador.cnpj.razaoSocial}"
+                                             required="true" requiredMessage="O campo [Razão Social] é obrigatório"
+                                             onkeyup="this.value = this.value.toUpperCase()"/>
+
+                                <p:outputLabel value="Nome Fantasia" for="fantasia"/>
+                                <p:inputText id="fantasia" size="20" value="#{controleCnpj.empregador.cnpj.nomeFantasia}"
+                                             required="true" requiredMessage="O campo [Nome Fantasia] é obrigatório"
+                                             onkeyup="this.value = this.value.toUpperCase()"/>
+                            </h:panelGrid>
+
+                        </h:panelGrid>
+                    </p:fieldset>    
+
+                    <p:fieldset legend="Endereço Comercial" toggleable="true" toggleSpeed="500" style="margin-bottom:10px">
+                        <h:panelGrid columns="4" cellpadding="4">
+
+
+
+                            <p:outputLabel value="Endereço" for="endComercial"/>
+                            <p:inputText id="endComercial" size="40" value="#{controleCnpj.empregador.cnpj.cep.logradouro}"
+                                         required="true" requiredMessage="O campo [Endereço] é obrigatório" >
+                            </p:inputText>
+
+                            <p:outputLabel value="CEP" for="cepComercial"/>
+                            <p:inputMask mask="99999-999" id="cepComercial" size="20" value="#{controleCnpj.empregador.cnpj.cep.cep}"
+                                         required="true" requiredMessage="O campo [CEP] é obrigatório" >
+                            </p:inputMask>
+
+                            <p:outputLabel value="Bairro" for="bairroComercial"/>
+                            <p:inputText id="bairroComercial" size="40" value="#{controleCnpj.empregador.cnpj.cep.bairro}"
+                                         required="true" requiredMessage="O campo [Bairro] é obrigatório" >
+                            </p:inputText>
+
+                            <p:outputLabel value="Numero" for="numComercial"/>
+                            <p:inputText id="numComercial" size="20" value="#{controleCnpj.empregador.cnpj.cep.numeroEndereco}"
+                                         required="true" requiredMessage="O campo [Numero] é obrigatório" >
+                            </p:inputText>
+
+                            <p:outputLabel value="Complemento" for="complementoComercial"/>
+                            <p:inputText id="complementoComercial" size="40" value="#{controleCnpj.empregador.cnpj.cep.complemento}"
+                                         required="true" requiredMessage="O campo [Complemento] é obrigatório" >
+                            </p:inputText>
+
+                            <p:outputLabel value="Cidade" for="cidades" />
+                            <p:autoComplete id="cidades" value="#{controleCnpj.empregador.cnpj.cep.cidade}" required="true" var="cidades"
+                                            completeMethod="#{controleCnpj.sugerirCidade}" itemLabel="#{cidades.nome}" itemValue="#{cidades}"
+                                            size="20"
+                                            forceSelection="true" minQueryLength="1" dropdown="true" converter="cidadeConverter"
+                                            requiredMessage="Digite o nome da Cidade">
+                            </p:autoComplete>
+
+                        </h:panelGrid>
+
+                    </p:fieldset>
+
+                    <p:fieldset legend="Responsável" toggleable="true" toggleSpeed="500" style="margin-bottom:10px">
+                        <h:panelGrid columns="4" cellpadding="4">
+
+                            <h:outputLabel for="nomePessoa" value="Nome.:"/>
+                            <p:inputText id="nomePessoa" size="40" value="#{controleCnpj.empregador.responsavelNome}"
+                                         required="true" requiredMessage="O campo [Nome] é obrigatório"
+                                         onkeyup="this.value = this.value.toUpperCase()"/>
+
+                            <h:outputLabel for="cpf" value="CPF:"/>
+                            <p:inputMask mask="999.999.999-99" id="cpf" size="20" value="#{controleCnpj.empregador.responsavelCPF}"
+                                         required="true" requiredMessage="O campo [CPF] é obrigatório">
+                                <f:validator validatorId="cpfValidator" />
+                                <p:ajax event="blur" process="@this" update="msgs"/>
+                            </p:inputMask>
+
+                            <h:outputLabel for="email" value="E-mail:"/>
+                            <p:inputText id="email" size="40" value="#{controleCnpj.empregador.responsavelEmail}"
+                                         required="true" requiredMessage="O campo [Email] é obrigatório">
+                                <f:validator validatorId="emailValidator" />
+                                <p:ajax event="blur" process="@this" update="msgs"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="CEP" for="cep"/>
+                            <p:inputMask mask="99999-999" id="cep" size="20" value="#{controleCnpj.empregador.cep.cep}"
+                                         required="true" requiredMessage="O campo [CEP] é obrigatório" >
+                            </p:inputMask>
+
+                            <p:outputLabel value="Endereço" for="endereco"/>
+                            <p:inputText id="endereco" size="40" value="#{controleCnpj.empregador.cep.logradouro}"
+                                         required="true" requiredMessage="O campo [Endereço] é obrigatório"
+                                         onkeyup="this.value = this.value.toUpperCase()"/>
+
+                            <p:outputLabel value="Numero Endereço" for="numero"/>
+                            <p:inputText id="numero" size="20" value="#{controleCnpj.empregador.cep.numeroEndereco}"
+                                         required="true" requiredMessage="O campo [Numero do Endereço] é obrigatório"
+                                         />
+
+                            <p:outputLabel value="Cod Cidade" for="codCidade"/>
+                            <p:inputText id="codCidade" size="40" value="#{controleCnpj.empregador.cep.ibge}"
+                                         required="true" requiredMessage="O campo [codCidade] é obrigatório"
+                                         />
+
+                            <p:outputLabel value="Complemento" for="complemento"/>
+                            <p:inputText id="complemento" size="20" value="#{controleCnpj.empregador.cep.complemento}"
+                                         required="true" requiredMessage="O campo [Complemento] é obrigatório"
+                                         onkeyup="this.value = this.value.toUpperCase()"/>
+
+
+
+                            <p:outputLabel value="Bairro" for="bairro"/>
+                            <p:inputText id="bairro" size="40" value="#{controleCnpj.empregador.cep.bairro}"
+                                         required="true" requiredMessage="O campo [Bairro] é obrigatório"
+                                         onkeyup="this.value = this.value.toUpperCase()"/>
+
+                            <p:outputLabel value="Cidade" for="cidade" />
+                            <p:autoComplete id="cidade" value="#{controleCnpj.empregador.cep.cidade}" required="true" var="cidade"
+                                            completeMethod="#{controleEmpresa.sugerirCidade}" itemLabel="#{cidade.nome}" itemValue="#{cidade}"
+                                            size="20"
+                                            forceSelection="true" minQueryLength="1" dropdown="true" converter="cidadeConverter"
+                                            requiredMessage="Digite o nome da Cidade">
+                            </p:autoComplete>
+
+                        </h:panelGrid>
+
+                    </p:fieldset>
+
+                    <p:fieldset legend="Informações" toggleable="true" toggleSpeed="500" style="margin-bottom:10px">
+                        <h:panelGrid columns="4" cellpadding="4">
+
+                            <h:outputLabel for="atividadePrincipal" value="Atividade Principal.:"/>
+                            <p:inputText id="atividadePrincipal" size="40" value="#{controleCnpj.empregador.cnpj.descricaoCnae}"
+                                         required="true" requiredMessage="O campo [Nome] é obrigatório"
+                                         onkeyup="this.value = this.value.toUpperCase()"/>
+
+                            <h:outputLabel for="cnae" value="CNAE.:"/>
+                            <p:inputText id="cnae" size="20" value="#{controleCnpj.empregador.cnpj.numeroCnae}"
+                                         required="true" requiredMessage="O campo [Nome] é obrigatório"
+                                         onkeyup="this.value = this.value.toUpperCase()"/>
+
+
+
+
+                            <h:outputLabel for="naturezaJuridica" value="Natureza Juridica.:"/>
+                            <p:inputText id="naturezaJuridica" size="40" value="#{controleCnpj.empregador.cnpj.naturezaJuridica}"
+                                         required="true" requiredMessage="O campo [Nome] é obrigatório"
+                                         onkeyup="this.value = this.value.toUpperCase()"/>
+
+                            <h:outputLabel for="dataAbertura" value="Data de Abertura:"/>
+                            <p:calendar size="20" id="dataAbertura" value="#{controleCnpj.empregador.cnpj.abertura}" pattern="dd/MM/yyyy"
+                                        requiredMessage="O campo [Data] é obrigatório."/>
+
+                            <p:outputLabel value="Situação" for="situacao"/>
+                            <p:inputText id="situacao" size="40" value="#{controleCnpj.empregador.cnpj.situacaoAtivaInativa}"
+                                         required="true" requiredMessage="O campo [Situacao] é obrigatório"
+                                         onkeyup="this.value = this.value.toUpperCase()"/>
+
+                            <h:outputLabel for="dataSituacao" value="Data de Abertura:"/>
+                            <p:calendar size="20" id="dataSituacao" value="#{controleCnpj.empregador.cnpj.dataSituacao}" pattern="dd/MM/yyyy"
+                                        requiredMessage="O campo [Data Sitiação] é obrigatório."/>
+
+                        </h:panelGrid>
+
+                    </p:fieldset>
+
+
+                    <p:commandButton id="btn" value="Gravar" update="panel" actionListener="#{controleCnpj.atualizaEmpresa()}">		
+                    </p:commandButton>
+                </p:panel>  
+                <h:outputText>3</h:outputText>
+            </h:form>
+
+
+
+
+            <h:form enctype="multipart/form-data" > 
+
+                <p:dialog header="Atualizar Imagen" widgetVar="mudarImagem" showEffect="explode" hideEffect="fade" height="100">
+                    <h:messages></h:messages>
+                    <p:fileUpload fileUploadListener="#{controleCnpj.salvarLogonarca}"  
+                                  label="Logomarca"
+                                  mode="advanced"  
+                                  multiple="true"  
+                                  sizeLimit="10000000"   
+                                  allowTypes="/(\.|\/)(png|jpg|gif)$/" 
+                                  invalidFileMessage="Extensão de arquivo inválida. Selecione Arquivos com extenção (png,jpg,gif)"
+                                  auto="true"
+                                  update="@form,:formAtualiza"
+                                  > 
+
+                    </p:fileUpload> 
+
+        
+              
+
+                </p:dialog>
+            </h:form>
+
+
+
+
+
+        </center> 
+    </ui:define>
+</ui:composition>
+

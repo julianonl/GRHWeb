@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="_template.xhtml">
+
+    <ui:define name="conteudo">
+
+
+        <h1 class="aw-page-title">Cadastro Empregador</h1>
+        <h:form>
+            <p:tabView  cache="false">
+                <p:tab title="Dados cadastrais">
+                    <p:growl id="msg0" />
+                    <h:panelGrid columns="2" cellpadding="4" >
+
+                        <p:outputLabel value="CNPJ" for="cnpj"/>
+                        <p:inputMask mask="99.999.999/9999-99" id="cnpj" size="70" value="#{controleEmpresa.cnpj}"
+                                     required="true" requiredMessage="O campo [CNPJ] é obrigatório">
+                            <f:validator validatorId="cnpjValidator" />
+                            <p:ajax event="blur" process="@this" listener="#{controleEmpresa.buscaCnpj()}" update="msg0, email, dataSituacao, atividadePrincipal, naturezaJuridica, cnae, cidades, complementoComercial, numComercial, bairroComercial, endComercial, cepComercial,razao,dataAbertura,situacao,tipo"/>
+                        </p:inputMask>
+
+                        <p:outputLabel value="Tipo" for="tipo"/>
+                        <p:inputText id="tipo" size="70" value="#{controleEmpresa.entidadeCnpj.tipo}"
+                                     required="true" requiredMessage="O campo [Tipo] é obrigatório"
+                                     onkeyup="this.value = this.value.toUpperCase()">
+                            <p:tooltip id="dicas" for="tipo" value="Informe Matriz ou Filial" showEvent="focus" hideEvent="blur" />
+                        </p:inputText>
+                        <p:outputLabel value="Razão Social" for="razao"/>
+                        <p:inputText id="razao" size="70" value="#{controleEmpresa.entidadeCnpj.razaoSocial}"
+                                     required="true" requiredMessage="O campo [Razão Social] é obrigatório"
+                                     onkeyup="this.value = this.value.toUpperCase()"/>
+
+                        <p:outputLabel value="Nome Fantasia" for="fantasia"/>
+                        <p:inputText id="fantasia" size="70" value="#{controleEmpresa.entidadeCnpj.nomeFantasia}"
+                                     required="true" requiredMessage="O campo [Nome Fantasia] é obrigatório"
+                                     onkeyup="this.value = this.value.toUpperCase()"/>
+
+                        <h:outputLabel for="senha" value="Senha:" />
+                        <p:password id="senha" redisplay="true" size="70" maxlength="22" promptLabel="Digite sua Senha" value="#{controleEmpresa.confereSenha}"
+                                    weakLabel="Senha Fraca" goodLabel="Senha Boa" strongLabel="Senha Forte" feedback="true"/> 
+
+                        <h:outputLabel for="senhaconf2" value="Confirmar Senha:"/>
+                        <p:password id="senhaconf2" size="70" value="#{controleEmpresa.entidadeCnpj.senha}" maxlength="22"   
+                                    promptLabel="Confirme sua Senha" weakLabel="Senha Fraca" validator="passwordValidator"
+                                    goodLabel="Senha Boa" strongLabel="Senha Forte" feedback="true">
+                            <p:ajax event="blur" process="@this" update="msg0"/>
+                        </p:password>  
+                    </h:panelGrid>
+                </p:tab>
+
+                <p:tab title="Endereço Comercial">
+                    <h:panelGrid columns="2" cellpadding="4">
+
+                        <p:outputLabel value="CEP" for="cepComercial"/>
+                        <p:inputMask mask="99999-999" id="cepComercial" size="40" value="#{controleEmpresa.cepCnpj.cep}"
+                                     required="true" requiredMessage="O campo [CEP] é obrigatório" >
+                        </p:inputMask>
+
+                        <p:outputLabel value="Endereço" for="endComercial"/>
+                        <p:inputText id="endComercial" size="40" value="#{controleEmpresa.cepCnpj.logradouro}"
+                                     required="true" requiredMessage="O campo [Endereço] é obrigatório" >
+                        </p:inputText>
+
+                        <p:outputLabel value="Bairro" for="bairroComercial"/>
+                        <p:inputText id="bairroComercial" size="40" value="#{controleEmpresa.cepCnpj.bairro}"
+                                     required="true" requiredMessage="O campo [Bairro] é obrigatório" >
+                        </p:inputText>
+
+                        <p:outputLabel value="Numero" for="numComercial"/>
+                        <p:inputText id="numComercial" size="40" value="#{controleEmpresa.cepCnpj.numeroEndereco}"
+                                     required="true" requiredMessage="O campo [Numero] é obrigatório" >
+                        </p:inputText>
+
+                        <p:outputLabel value="Complemento" for="complementoComercial"/>
+                        <p:inputText id="complementoComercial" size="40" value="#{controleEmpresa.cepCnpj.complemento}"
+                                     required="true" requiredMessage="O campo [Complemento] é obrigatório" >
+                        </p:inputText>
+
+                        <p:outputLabel value="Cidade" for="cidades" />
+                        <p:autoComplete id="cidades" value="#{controleEmpresa.cepCnpj.cidade}" required="true" var="cidades"
+                                        completeMethod="#{controleEmpresa.sugerirCidade}" itemLabel="#{cidades.nome}" itemValue="#{cidades}"
+                                        size="40"
+                                        forceSelection="true" minQueryLength="1" dropdown="true" converter="cidadeConverter"
+                                        requiredMessage="Digite o nome da Cidade">
+                        </p:autoComplete>
+
+                    </h:panelGrid>
+
+                </p:tab>
+
+            </p:tabView>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+

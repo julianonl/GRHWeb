@@ -20,12 +20,12 @@
 
                 <h:dataTable value="#{controleDadosTemplate.procuraEmpresa()}" var="item">
                     <h:column>
-            
+
                         <h:commandLink id="logo" action="alteraLogoMarca.xhtml"><p:graphicImage value="#{controleDadosTemplate.buscarLogomarca()}" class="logo"/></h:commandLink>
-                    
-                           <p:tooltip id="dica" for="logo" value="Click para alterar a Imagem"
-               showEffect="clip" hideEffect="explode"/>
-                    
+
+                        <p:tooltip id="dica" for="logo" value="Click para alterar a Imagem"
+                                   showEffect="clip" hideEffect="explode"/>
+
                     </h:column>
                     <h:column>
                         <h3 style="color: #149bdf">
@@ -73,7 +73,7 @@
                                                         <p:menuitem value="IRRF" url="tabelaIRRF.xhtml" update="messages" icon="ui-icon-disk"/>
                                                         <p:menuitem value="Cargos" url="tabelaCargos.xhtml" update="messages" icon="ui-icon-disk"/>
                                                         <p:menuitem value="Salário" url="tabelaSalario.xhtml" update="messages" icon="ui-icon-disk"/>
-                                                        <p:menuitem value="Horário" actionListener="#{menuView.update}" update="messages" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="Horário" url="tabelaHorario.xhtml" update="messages" icon="ui-icon-disk"/>
                                                     </p:submenu>
                                                     <p:submenu label="Trabalhadores">
                                                         <p:menuitem value="Cadastro Trabalhadores" actionListener="#{menuView.delete}"  ajax="false" icon="ui-icon-person"/>
@@ -86,6 +86,10 @@
 
                                                     <p:submenu label="Ficha de Registro">
                                                         <p:menuitem value="Ficha de Financeira" actionListener="#{menuView.delete}"  ajax="false" icon="ui-icon-person"/>
+                                                    </p:submenu>
+
+                                                    <p:submenu label="Empresa">
+                                                        <p:menuitem value="Cadastro Empresa" url="editaEmpregador.xhtml"  ajax="false" icon="ui-icon-person"/>
                                                     </p:submenu>
                                                 </p:slideMenu>
                                             </h:form>

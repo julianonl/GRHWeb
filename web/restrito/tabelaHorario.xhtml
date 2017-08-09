@@ -20,8 +20,6 @@
 
             <h:form id="formHorario">
 
-                <h:outputScript name="locale-primefaces.js" library="js" />
-
                 <p:dataTable styleClass="tabela" var="jornada" value="#{controleHorario.buscarHorario()}" widgetVar="busca" paginator="true" rows="15" emptyMessage="Nenhum registro encontrado"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}
                              {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"

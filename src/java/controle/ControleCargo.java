@@ -5,7 +5,6 @@ import dao.DAOGenerico;
 import entidade.Cargo;
 import entidade.DescricaoCargo;
 import entidade.Empregador;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

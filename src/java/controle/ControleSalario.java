@@ -2,8 +2,6 @@ package controle;
 
 import dao.DAOCnpj;
 import dao.DAOGenerico;
-import entidade.Cargo;
-import entidade.DescricaoCargo;
 import entidade.Empregador;
 import entidade.TabelaSalario;
 import java.io.Serializable;
