@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 
 @Entity
@@ -40,10 +39,9 @@ public class Dependente implements Serializable {
     @Column(name = "DataDeNascimento", nullable = false)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataDeNascimento;
-    
- 
-    @ManyToOne
-    private EstadoCivil estadoCivilDependente;
+
+    @Column(name = "estadoCivil", length = 50, nullable = true)
+    private String estadoCivil;
 
     public void setId(Long id) {
         this.id = id;
@@ -97,15 +95,15 @@ public class Dependente implements Serializable {
         this.dataDeNascimento = dataDeNascimento;
     }
 
-    public EstadoCivil getEstadoCivilDependente() {
-        return estadoCivilDependente;
+    public String getEstadoCivil() {
+        return estadoCivil;
     }
 
-    public void setEstadoCivilDependente(EstadoCivil estadoCivilDependente) {
-        this.estadoCivilDependente = estadoCivilDependente;
+    public void setEstadoCivil(String estadoCivil) {
+        this.estadoCivil = estadoCivil;
     }
-    
-    
+
+
 
     @Override
     public int hashCode() {

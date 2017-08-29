@@ -12,7 +12,6 @@
     <class>entidade.EstadoCivil</class>
     <class>entidade.Instrucao</class>
     <class>entidade.Nacionalidade</class>
-    <class>entidade.Pessoa</class>
     <class>entidade.TipoDependente</class>
     <class>entidade.TabelaHorario</class>
     <class>entidade.Trabalhador</class>

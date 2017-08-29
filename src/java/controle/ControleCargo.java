@@ -128,6 +128,7 @@ public class ControleCargo implements Serializable {
             descricaoCargo = new DescricaoCargo();
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Cargo adicionado com sucesso", ""));
+            
 
         } else {
             atualizaCargo();

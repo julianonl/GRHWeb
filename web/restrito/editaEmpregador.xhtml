@@ -12,21 +12,11 @@
 
 
                 <p:panel id="panel" header="Dados do Empregador" styleClass="painel3" style="font-size: 10px">  
-
-
                     <p:messages id="msgs"/>  
-
-
-
                     <p:fieldset legend="Dados cadastrais" toggleable="true" toggleSpeed="500" style="margin-bottom:10px">     
-
                         <h:panelGrid columns="2" cellpadding="4">
-
                             <h:panelGrid columns="1" cellpadding="4">
-
-                                <p:graphicImage value="#{controleCnpj.buscarLogomarca()}" class="logo"/>
-
-                               
+                                <p:graphicImage value="#{controleCnpj.buscarLogomarca()}" class="logo"/>                            
                                 <p:commandButton id="cad" value="Alterar" onclick="PF('mudarImagem').show()">
                                         <p:tooltip id="dica" for="cad" value="Alterar Logomarca" showEffect="clip" hideEffect="explode" style="color: #149bdf"/>
                                     </p:commandButton>
@@ -225,7 +215,7 @@
                     <p:fileUpload fileUploadListener="#{controleCnpj.salvarLogonarca}"  
                                   label="Logomarca"
                                   mode="advanced"  
-                                  multiple="true"  
+                                  multiple="false"  
                                   sizeLimit="10000000"   
                                   allowTypes="/(\.|\/)(png|jpg|gif)$/" 
                                   invalidFileMessage="Extensão de arquivo inválida. Selecione Arquivos com extenção (png,jpg,gif)"

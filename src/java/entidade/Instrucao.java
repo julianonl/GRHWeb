@@ -15,19 +15,12 @@ public class Instrucao implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "codigoInstrucao", length = 5, nullable = true)
-    private String codigoInstrucao;
 
-    @Column(name = "descricaoInstrucao", length = 5, nullable = true)
+
+    @Column(name = "descricaoInstrucao", length = 50, nullable = true)
     private String descricaoInstrucao;
 
-    public String getCodigoInstrucao() {
-        return codigoInstrucao;
-    }
-
-    public void setCodigoInstrucao(String codigoInstrucao) {
-        this.codigoInstrucao = codigoInstrucao;
-    }
+  
 
     public String getDescricaoInstrucao() {
         return descricaoInstrucao;

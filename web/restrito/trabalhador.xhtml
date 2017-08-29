@@ -7,82 +7,136 @@
 
     <ui:define name="conteudo">
 
+        <h1 class="aw-page-title">Cadastro Empregado</h1>
 
-        <h1 class="aw-page-title">Cadastro Empregador</h1>
-        <h:form>
-            <p:tabView  cache="false">
+        <h:form id="cadTrabalhador">
+
+            <p:tabView  cache="false" id="tabDados">
                 <p:tab title="Dados cadastrais">
                     <p:growl id="msg0" />
-                    <h:panelGrid columns="2" cellpadding="4" >
 
-                        <p:outputLabel value="CNPJ" for="cnpj"/>
-                        <p:inputMask mask="99.999.999/9999-99" id="cnpj" size="70" value="#{controleEmpresa.cnpj}"
-                                     required="true" requiredMessage="O campo [CNPJ] é obrigatório">
-                            <f:validator validatorId="cnpjValidator" />
-                            <p:ajax event="blur" process="@this" listener="#{controleEmpresa.buscaCnpj()}" update="msg0, email, dataSituacao, atividadePrincipal, naturezaJuridica, cnae, cidades, complementoComercial, numComercial, bairroComercial, endComercial, cepComercial,razao,dataAbertura,situacao,tipo"/>
-                        </p:inputMask>
-
-                        <p:outputLabel value="Tipo" for="tipo"/>
-                        <p:inputText id="tipo" size="70" value="#{controleEmpresa.entidadeCnpj.tipo}"
-                                     required="true" requiredMessage="O campo [Tipo] é obrigatório"
+                    <h:panelGrid columns="2" style="font-size: 11px" cellpadding="2"  >
+                        <p:outputLabel value="Nome" for="nome"/>
+                        <p:inputText id="nome" size="70" placeholder="Nome" value="#{controleTrabalhador.trabalhador.nome}"
+                                     required="true" requiredMessage="O campo [Nome] é obrigatório"
                                      onkeyup="this.value = this.value.toUpperCase()">
-                            <p:tooltip id="dicas" for="tipo" value="Informe Matriz ou Filial" showEvent="focus" hideEvent="blur" />
+
                         </p:inputText>
-                        <p:outputLabel value="Razão Social" for="razao"/>
-                        <p:inputText id="razao" size="70" value="#{controleEmpresa.entidadeCnpj.razaoSocial}"
-                                     required="true" requiredMessage="O campo [Razão Social] é obrigatório"
-                                     onkeyup="this.value = this.value.toUpperCase()"/>
+                    </h:panelGrid>
 
-                        <p:outputLabel value="Nome Fantasia" for="fantasia"/>
-                        <p:inputText id="fantasia" size="70" value="#{controleEmpresa.entidadeCnpj.nomeFantasia}"
-                                     required="true" requiredMessage="O campo [Nome Fantasia] é obrigatório"
-                                     onkeyup="this.value = this.value.toUpperCase()"/>
+                    <h:panelGrid columns="2" style="font-size: 11px" cellpadding="2"  >
 
-                        <h:outputLabel for="senha" value="Senha:" />
-                        <p:password id="senha" redisplay="true" size="70" maxlength="22" promptLabel="Digite sua Senha" value="#{controleEmpresa.confereSenha}"
-                                    weakLabel="Senha Fraca" goodLabel="Senha Boa" strongLabel="Senha Forte" feedback="true"/> 
+                        <h:panelGrid columns="1" cellpadding="4">
+                            <p:graphicImage id="foto" value="#{controleTrabalhador.buscarFotos()}" class="foto"/>
+                            <p:fileUpload style="border: 0" label="Foto" fileUploadListener="#{controleTrabalhador.salvarFotos}" sizeLimit="2048000" auto="true" update="foto"/>
+                        </h:panelGrid>
 
-                        <h:outputLabel for="senhaconf2" value="Confirmar Senha:"/>
-                        <p:password id="senhaconf2" size="70" value="#{controleEmpresa.entidadeCnpj.senha}" maxlength="22"   
-                                    promptLabel="Confirme sua Senha" weakLabel="Senha Fraca" validator="passwordValidator"
-                                    goodLabel="Senha Boa" strongLabel="Senha Forte" feedback="true">
-                            <p:ajax event="blur" process="@this" update="msg0"/>
-                        </p:password>  
+                        <h:panelGrid columns="2" cellpadding="2" >
+
+
+
+
+                            <h:panelGrid columns="2" cellpadding="2" >
+
+                                <p:outputLabel value="Dt Nasc." for="nacimento"/>
+                                <p:calendar id="nacimento" placeholder="Data" value="#{controleTrabalhador.trabalhador.dataDeNascimento}"
+                                            required="true" requiredMessage="O campo [Data de nascimento] é obrigatório"
+                                            pattern="dd/MM/yyyy">
+
+                                </p:calendar>
+
+                                <p:outputLabel value="Sexo" for="sexo"/>
+                                <p:selectOneMenu style="width: 165px" effect="fold" id="sexo" value="#{controleTrabalhador.trabalhador.sexo}"> 
+                                    <f:selectItems value="#{controleTrabalhador.comboSexo}"/>
+                                    <f:validator validatorId="sexoValidator"/>
+                                </p:selectOneMenu>
+
+
+
+                                <p:outputLabel value="Estado Civil" for="civil"/>
+                                <p:selectOneMenu style="width: 165px" effect="fold" id="civil" value="#{controleTrabalhador.trabalhador.estadoCivil}"> 
+                                    <f:selectItems value="#{controleTrabalhador.comboEstadoCivil}"/>
+                                    <f:validator validatorId="estadoCivilValidator"/>
+                                </p:selectOneMenu>
+
+
+                                <p:outputLabel value="Telefone" for="fone"/>
+                                <p:inputMask mask="(99)9?99999999" id="fone" placeholder="Fone" value="#{controleTrabalhador.trabalhador.telefone}">
+                                </p:inputMask>
+
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" cellpadding="2" >
+
+                                <p:outputLabel value="Celular" for="foneCel"/>
+                                <p:inputMask mask="(99)9?99999999" id="foneCel" placeholder="Celular" value="#{controleTrabalhador.trabalhador.telefoneCelular}">
+                                </p:inputMask>
+
+                                <p:outputLabel value="E-mail" for="mail"/>
+                                <p:inputText id="mail" placeholder="E-mail" value="#{controleTrabalhador.trabalhador.email}"
+                                             required="true" requiredMessage="O campo [E-mail] é obrigatório" >
+                                    <f:validator validatorId="emailValidator" />
+                                    <p:ajax event="blur" process="@this" update="msg0"/>
+
+                                </p:inputText>
+
+                                <p:outputLabel for="instrucao" value="Instrução"/>
+                                <p:selectOneMenu id="instrucao" effect="fold" style="width: 165px"
+                                                 value="#{controleTrabalhador.trabalhador.instrucao}"
+                                                 converter="conversorEntidade">
+                                    <f:selectItems value="#{controleTrabalhador.getInstrucao()}"/>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel for="nacionalidade" value="Nacionalidade"/>
+                                <p:selectOneMenu id="nacionalidade" effect="fold" style="width: 165px"
+                                                 value="#{controleTrabalhador.trabalhador.nacionalidade}"
+                                                 converter="conversorEntidade">
+                                    <f:selectItems value="#{controleTrabalhador.getNacionalidade()}"/>
+                                </p:selectOneMenu>
+
+                            </h:panelGrid>
+                        </h:panelGrid>
                     </h:panelGrid>
                 </p:tab>
 
-                <p:tab title="Endereço Comercial">
-                    <h:panelGrid columns="2" cellpadding="4">
+                <p:tab title="Endereço">
+                    <h:panelGrid columns="4" cellpadding="4" style="font-size: 11px">
 
-                        <p:outputLabel value="CEP" for="cepComercial"/>
-                        <p:inputMask mask="99999-999" id="cepComercial" size="40" value="#{controleEmpresa.cepCnpj.cep}"
+                        <p:outputLabel value="CEP" for="cep"/>
+                        <p:inputMask mask="99999-999" id="cep" value="#{controleTrabalhador.cep}"
                                      required="true" requiredMessage="O campo [CEP] é obrigatório" >
+                            <p:ajax event="blur" process="@this" listener="#{controleTrabalhador.buscarCep()}" update="endereco,bairro,codCidade,complemento"/>
                         </p:inputMask>
 
-                        <p:outputLabel value="Endereço" for="endComercial"/>
-                        <p:inputText id="endComercial" size="40" value="#{controleEmpresa.cepCnpj.logradouro}"
+                        <p:outputLabel value="Endereço" for="endereco"/>
+                        <p:inputText id="endereco" value="#{controleTrabalhador.cep1.logradouro}"
                                      required="true" requiredMessage="O campo [Endereço] é obrigatório" >
                         </p:inputText>
 
-                        <p:outputLabel value="Bairro" for="bairroComercial"/>
-                        <p:inputText id="bairroComercial" size="40" value="#{controleEmpresa.cepCnpj.bairro}"
+                        <p:outputLabel value="Bairro" for="bairro"/>
+                        <p:inputText id="bairro" value="#{controleTrabalhador.cep1.bairro}"
                                      required="true" requiredMessage="O campo [Bairro] é obrigatório" >
                         </p:inputText>
 
                         <p:outputLabel value="Numero" for="numComercial"/>
-                        <p:inputText id="numComercial" size="40" value="#{controleEmpresa.cepCnpj.numeroEndereco}"
+                        <p:inputText id="numComercial" value="#{controleTrabalhador.cep1.numeroEndereco}"
                                      required="true" requiredMessage="O campo [Numero] é obrigatório" >
                         </p:inputText>
 
-                        <p:outputLabel value="Complemento" for="complementoComercial"/>
-                        <p:inputText id="complementoComercial" size="40" value="#{controleEmpresa.cepCnpj.complemento}"
+                        <p:outputLabel value="Complemento" for="complemento"/>
+                        <p:inputText id="complemento" value="#{controleTrabalhador.cep1.complemento}"
                                      required="true" requiredMessage="O campo [Complemento] é obrigatório" >
                         </p:inputText>
 
+                        <p:outputLabel value="Cod Cidade" for="codCidade"/>
+                        <p:inputText id="codCidade"  value="#{controleTrabalhador.cep1.ibge}"
+                                     required="true" requiredMessage="O campo [codCidade] é obrigatório"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" cellpadding="4" style="font-size: 11px">
+
                         <p:outputLabel value="Cidade" for="cidades" />
-                        <p:autoComplete id="cidades" value="#{controleEmpresa.cepCnpj.cidade}" required="true" var="cidades"
-                                        completeMethod="#{controleEmpresa.sugerirCidade}" itemLabel="#{cidades.nome}" itemValue="#{cidades}"
-                                        size="40"
+                        <p:autoComplete id="cidades" size="60" value="#{controleTrabalhador.cep1.cidade}" required="true" var="cidades"
+                                        completeMethod="#{controleTrabalhador.sugerirCidade}" itemLabel="#{cidades.nome}" itemValue="#{cidades}"
                                         forceSelection="true" minQueryLength="1" dropdown="true" converter="cidadeConverter"
                                         requiredMessage="Digite o nome da Cidade">
                         </p:autoComplete>
@@ -91,8 +145,207 @@
 
                 </p:tab>
 
+                <p:tab title="Documentos">
+                    <h:panelGrid columns="4" cellpadding="4" style="font-size: 11px">
+
+                        <p:outputLabel value="CPF" for="cpf"/>
+                        <p:inputMask mask="999.999.999-99" id="cpf" placeholder="CPF" value="#{controleTrabalhador.trabalhador.cpf}"
+                                     required="true" requiredMessage="O campo [CPF] é obrigatório">
+                            <f:validator validatorId="cpfValidator" />
+                            <p:ajax event="blur" process="@this" update="msg0"/>
+                        </p:inputMask>
+
+                        <p:outputLabel value="RG" for="rg"/>
+                        <p:inputText id="rg" placeholder="RG" value="#{controleTrabalhador.trabalhador.numeroRg}"
+                                     required="true" requiredMessage="O campo [RG] é obrigatório">
+                            <f:convertNumber integerOnly="true"/>
+                            <p:ajax event="blur" process="@this" update="msg0"/>
+
+                        </p:inputText>
+
+                        <p:outputLabel value="DT Expedição" for="dtExpedicaoRG"/>
+                        <p:calendar id="dtExpedicaoRG" placeholder="Data" value="#{controleTrabalhador.trabalhador.dataExpedicaoRg}"
+                                    required="true" requiredMessage="O campo [Data de Expedição RG] é obrigatório"
+                                    pattern="dd/MM/yyyy">
+
+                        </p:calendar>
+
+                        <p:outputLabel value="Orgão Emissor" for="emissor"/>
+                        <p:inputText id="emissor" placeholder="Emissor" value="#{controleTrabalhador.trabalhador.orgaoExpedidorRg}"
+                                     required="true" requiredMessage="O campo [Oergão Emissor] é obrigatório">
+
+                        </p:inputText>
+
+
+                        <p:outputLabel value="UF Emissor" for="uf"/>
+                        <p:selectOneMenu style="width: 165px" effect="fold" id="uf" value="#{controleTrabalhador.trabalhador.ufCTPS}"> 
+                            <f:selectItems value="#{controleTrabalhador.comboUF}"/>
+                            <f:validator validatorId="ufValidator"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="CTPS" for="ctps"/>
+                        <p:inputText id="ctps" placeholder="Carteira de Trabalho" value="#{controleTrabalhador.trabalhador.numeroCTPS}"
+                                     required="true" requiredMessage="O campo [Numero CTPS] é obrigatório">
+
+                        </p:inputText>
+
+                        <p:outputLabel value="Série" for="serie"/>
+                        <p:inputText id="serie" placeholder="Série CTPS" value="#{controleTrabalhador.trabalhador.serieCTPS}"
+                                     required="true" requiredMessage="O campo [Série CTPS] é obrigatório">
+
+                        </p:inputText>
+
+                        <p:outputLabel value="DT Emissão" for="dtEmissaoCTPS"/>
+                        <p:calendar id="dtEmissaoCTPS" placeholder="Data Emissão" value="#{controleTrabalhador.trabalhador.dataEmissaoCTPS}"
+                                    required="true" requiredMessage="O campo [Data de Emissão CTPS] é obrigatório"
+                                    pattern="dd/MM/yyyy">
+
+                        </p:calendar>
+
+                        <p:outputLabel value="PIS" for="pis"/>
+                        <p:inputMask mask="99999999999" id="pis" placeholder="PIS" value="#{controleTrabalhador.trabalhador.pis}"
+                                     required="true" requiredMessage="O campo [PIS] é obrigatório">
+                            <f:validator validatorId="pisValidator" />
+                            <p:ajax event="blur" process="@this" update="msg0"/>
+                        </p:inputMask>
+
+                    </h:panelGrid>
+                </p:tab>
+
+                <p:tab title="Cargo e salário" id="tabCargo">
+                    <h:panelGrid columns="2" cellpadding="4" style="font-size: 11px" id="painelSal">
+                        <p:outputLabel value="Cargo" for="cargos" />
+                        <h:panelGrid columns="2" cellpadding="1">
+                            <p:autoComplete id="cargos" value="#{controleTrabalhador.cargo}" required="true" var="cargos"
+                                            completeMethod="#{controleTrabalhador.sugerirCargo}" itemLabel="#{cargos.nome}" itemValue="#{cargos}"
+                                            size="40" minQueryLength="1" converter="cargoConverter"
+                                            requiredMessage="Digite o nome do Cargo">
+                            </p:autoComplete>
+
+
+
+                            <p:commandButton id="cad" icon="ui-icon-plus" onclick="PF('incluirCargo').show()">
+                                <p:tooltip id="dica" for="cad" value="Adicionar novo cargo" showEffect="clip" hideEffect="explode" style="color: #149bdf"/>
+                            </p:commandButton>
+                        </h:panelGrid>
+
+                        <p:outputLabel value="Horas Semanais" for="horasSemanais"/>
+                        <p:inputMask mask="99" id="horasSemanais" size="40" placeholder="Horas Semanais" value="#{controleTrabalhador.trabalhador.horasSemanais}" required="true" requiredMessage="O campo [Horas Semanais] é obrigatório">
+                            <f:convertNumber maxIntegerDigits="2"/>
+                        </p:inputMask>
+
+                        <h:outputLabel for="salario" value="Salário"/>
+                        <h:panelGrid columns="2" cellpadding="1">
+                            <p:selectOneMenu style="width: 305px" id="salario" effect="fold"
+                                             value="#{controleTrabalhador.trabalhador.salario}"
+                                             converter="conversorEntidade">
+                                <f:selectItems value="#{controleTrabalhador.getSalario()}"/>
+                            </p:selectOneMenu>
+
+                            <p:commandButton id="cad1" icon="ui-icon-plus" onclick="PF('incluirSalario').show()">
+                                <p:tooltip id="dica1" for="cad1" value="Adicionar novo cargo" showEffect="clip" hideEffect="explode" style="color: #149bdf"/>
+                            </p:commandButton>
+
+                        </h:panelGrid>
+
+                        <p:outputLabel value="DT Admissão" for="dtAdmissao"/>
+                        <p:calendar id="dtAdmissao" size="40" placeholder="Data Admissão" value="#{controleTrabalhador.trabalhador.dataDeAdmissao}"
+                                    required="true" requiredMessage="O campo [Data de Admissão] é obrigatório"
+                                    pattern="dd/MM/yyyy">
+
+                        </p:calendar>
+
+                    </h:panelGrid>
+
+                </p:tab>
+
+                <p:tab title="Pagamento">
+                    <h:panelGrid columns="4" cellpadding="4" style="font-size: 11px">
+
+                        <p:outputLabel value="Banco" for="banco"/>
+                        <p:selectOneMenu style="width: 165px" id="banco" effect="fold" value="#{controleTrabalhador.trabalhador.banco}"> 
+                            <f:selectItems value="#{controleTrabalhador.comboBanco}"/>
+                            <f:validator validatorId="bancoValidator"/>
+                        </p:selectOneMenu>
+
+
+                        <p:outputLabel value="Agência" for="agencia"/>
+                        <p:inputText id="agencia" placeholder="Agência" value="#{controleTrabalhador.trabalhador.agencia}">
+
+                        </p:inputText>
+                        <p:outputLabel value="Conta" for="conta"/>
+                        <p:inputText id="conta" placeholder="Conta" value="#{controleTrabalhador.trabalhador.conta}">
+                        </p:inputText>
+
+
+                        <p:outputLabel for="console" value="Tipo de Conta" />
+                        <p:selectOneMenu style="width: 165px" id="console" editable="true" effect="fold" value="#{controleTrabalhador.trabalhador.operacao}" >
+                            <f:selectItem itemLabel="-" itemValue="" />
+                            <f:selectItem itemLabel="CONTA CORRENTE" itemValue="CONTA CORRENTE" />
+                            <f:selectItem itemLabel="CONTA SALÁRIO" itemValue="CONTA SALÁRIO" />
+                            <f:selectItem itemLabel="CONTA POUPANÇA" itemValue="CONTA POUPANÇA" />
+                        </p:selectOneMenu>
+
+
+                    </h:panelGrid>
+                    <p:fieldset>
+                    <p:separator />
+                    
+                    <p:commandButton value="Gravar" actionListener="#{controleTrabalhador.cadastrarFuncionario()}" image="ui-icon ui-icon-person" update="@form"/>
+                    <p:commandButton value="Cancelar" actionListener="#{controleTrabalhador.limpaFuncionario()}" image="ui-icon ui-icon-close" update="@form"/>
+
+</p:fieldset>
+                </p:tab>
             </p:tabView>
 
+
+        </h:form>
+        
+        
+        <h:form id="incluiSal">
+                <p:dialog header="Incluir nova Faixa Salarial" widgetVar="incluirSalario" showEffect="explode" hideEffect="fade" height="200">
+                    <p:fieldset toggleable="true" >
+                        <p:growl id="msg0" />
+                        <p:panelGrid columns="2">
+
+                            <p:outputLabel value="Salário " for="nomeSal"/>
+                            <p:inputText id="nomeSal" size="40" value="#{controleTrabalhador.salario1.valor}"
+                                         required="true" requiredMessage="O campo [Salário] é obrigatório" >
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                            </p:inputText>
+
+                            <p:commandButton value="Gravar" actionListener="#{controleTrabalhador.adicionaSalario()}" image="ui-icon ui-icon-person" update="@form,:cadTrabalhador:tabDados:salario"/>
+                            <p:commandButton value="Cancelar" actionListener="#{controleTrabalhador.limparSalario()}" image="ui-icon ui-icon-close" update="@form"/>
+                        </p:panelGrid>
+                    </p:fieldset>
+                </p:dialog>
+            </h:form>
+        
+
+        <h:form id="incluiCargo">
+            <p:dialog header="Incluir novo Cargo" widgetVar="incluirCargo" showEffect="explode" hideEffect="fade" height="200">
+                <p:fieldset toggleable="true" >
+                    <p:growl id="msg0" />
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="CBO: " for="cboCod"/>
+                        <p:inputText id="cboCod" size="40" value="#{controleTrabalhador.cargos1.cbo}"
+                                     required="true" requiredMessage="O campo [CBO] é obrigatório" >
+                        </p:inputText>
+
+                        <p:outputLabel value="Cargo: " for="nomeCargo"/>
+                        <p:inputText id="nomeCargo" size="40" value="#{controleTrabalhador.cargos1.nome}"
+                                     required="true" requiredMessage="O campo [Cargo] é obrigatório" >
+                        </p:inputText>
+                        <p:outputLabel value="Descrição: " for="descric"/>
+                        <p:inputText id="descric" size="40" value="#{controleTrabalhador.descricaoCargo.descricao}">
+                        </p:inputText>
+                        <p:commandButton value="Gravar" actionListener="#{controleTrabalhador.adicionaCargo()}" image="ui-icon ui-icon-person" update="@form">
+
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" actionListener="#{controleTrabalhador.limparCargo()}" image="ui-icon ui-icon-close" update="@form"/>
+                    </p:panelGrid>
+                </p:fieldset>
+            </p:dialog>
 
         </h:form>
     </ui:define>
