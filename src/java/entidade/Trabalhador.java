@@ -29,12 +29,7 @@ public class Trabalhador implements Serializable {
     private String email;
     @Column(name = "telefone", length = 15, nullable = true)
     private String telefone;
-    @Column(name = "endereco", length = 150, nullable = true)
-    private String endereco;
-    @Column(name = "numeroEndereco", length = 20, nullable = true)
-    private String numeroEndereco;
-    @Column(name = "bairro", length = 150, nullable = true)
-    private String bairro;
+   
     @Column(name = "numeroRg", length = 20, nullable = true)
     private String numeroRg;
     @Column(name = "dataExpedicaoRg", nullable = false)
@@ -158,29 +153,6 @@ public class Trabalhador implements Serializable {
         this.telefone = telefone;
     }
 
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
-    public String getNumeroEndereco() {
-        return numeroEndereco;
-    }
-
-    public void setNumeroEndereco(String numeroEndereco) {
-        this.numeroEndereco = numeroEndereco;
-    }
-
-    public String getBairro() {
-        return bairro;
-    }
-
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
 
     public String getNumeroRg() {
         return numeroRg;

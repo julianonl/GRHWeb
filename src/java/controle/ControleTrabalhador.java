@@ -124,9 +124,10 @@ public class ControleTrabalhador implements Serializable {
         }
         return cidadesSugeridas;
     }
-    
-    public void limpaFuncionario(){
-    trabalhador = new Trabalhador();
+
+    public void limpaFuncionario() {
+        trabalhador = new Trabalhador();
+        cep1 = new Cep();
     }
 
     public void cadastrarFuncionario() {
@@ -135,14 +136,21 @@ public class ControleTrabalhador implements Serializable {
             trabalhador.setDataDeCadastro(date);
             trabalhador.setEmpregador(procuraEmpresa());
             trabalhador.setEstatus("Ativo");
+            trabalhador.setFoto(foto);
+            trabalhador.setCargo(cargo);
+            trabalhador.setCep(cep1);
             dao.inserir(trabalhador);
             limpaFuncionario();
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Gravação efetuada com sucesso", ""));
 
         } else {
             updateTrabalhador();
         }
     }
-     private void updateTrabalhador() {
+
+    private void updateTrabalhador() {
         dao.alterar(trabalhador);
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Atualização efetuada com sucesso", ""));
@@ -226,7 +234,7 @@ public class ControleTrabalhador implements Serializable {
 
         return lista;
     }
-    
+
     public ArrayList<SelectItem> getComboBanco() {
         ArrayList lista = new ArrayList();
         lista.add(new SelectItem("-"));
@@ -275,7 +283,7 @@ public class ControleTrabalhador implements Serializable {
         List<SelectItem> item = new ArrayList<SelectItem>();
         List<Nacionalidade> nacionalidade = dao.listar(Nacionalidade.class);
         for (Nacionalidade c : nacionalidade) {
-            item.add(new SelectItem(c.getPaisNacionalidade()));
+            item.add(new SelectItem(c, c.getPaisNacionalidade()));
         }
         return item;
     }
@@ -336,7 +344,7 @@ public class ControleTrabalhador implements Serializable {
     public void setDescricaoCargo(DescricaoCargo descricaoCargo) {
         this.descricaoCargo = descricaoCargo;
     }
-    
+
     public String adicionaSalario() {
         if (salario1.getId() == null || salario1.getId() == 0) {
             salario1.setEmpregador(procuraEmpresa());
@@ -366,9 +374,17 @@ public class ControleTrabalhador implements Serializable {
     public void setSalario1(TabelaSalario salario1) {
         this.salario1 = salario1;
     }
-    
-    public void atualizaListaSalario(){
-            salario = dao.listar(TabelaSalario.class);
+
+    public void atualizaListaSalario() {
+        salario = dao.listar(TabelaSalario.class);
+    }
+
+    public List<Trabalhador> procuraTrabalhador() {
+        
+        List<Trabalhador> trabalhador = new ArrayList<Trabalhador>();
+        trabalhador=dao.listarCondic2(Trabalhador.class,"empregador",procuraEmpresa().getId());
+        
+        return trabalhador;
     }
 
 }

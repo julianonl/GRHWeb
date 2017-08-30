@@ -57,9 +57,9 @@ public class DAOGenerico {
         return retorno;
     }
 
-    public List listarCondic2(Class classe, long id) {
+    public List listarCondic2(Class classe, String coluna, long id) {
         em = CriarEntityManager.getInstancia().getEm();
-        List<Object> retorno = em.createQuery("from " + classe.getSimpleName() + " where evento =" + id).getResultList();
+        List<Object> retorno = em.createQuery("from " + classe.getSimpleName() + " where "+coluna+" = " + id).getResultList();
         return retorno;
     }
     

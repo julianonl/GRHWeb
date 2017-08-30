@@ -28,7 +28,7 @@
 
                         <h:panelGrid columns="1" cellpadding="4">
                             <p:graphicImage id="foto" value="#{controleTrabalhador.buscarFotos()}" class="foto"/>
-                            <p:fileUpload style="border: 0" label="Foto" fileUploadListener="#{controleTrabalhador.salvarFotos}" sizeLimit="2048000" auto="true" update="foto"/>
+                            <p:commandButton value="Foto" id="fotos" icon="ui-icon-person" onclick="PF('incluirFoto').show()"></p:commandButton>
                         </h:panelGrid>
 
                         <h:panelGrid columns="2" cellpadding="2" >
@@ -170,6 +170,13 @@
 
                         </p:calendar>
 
+                        <p:outputLabel value="UF RG" for="ufRg"/>
+                        <p:selectOneMenu style="width: 165px" effect="fold" id="ufRg" value="#{controleTrabalhador.trabalhador.ufRg}"> 
+                            <f:selectItems value="#{controleTrabalhador.comboUF}"/>
+                            <f:validator validatorId="ufValidator"/>
+                        </p:selectOneMenu>
+
+
                         <p:outputLabel value="Orgão Emissor" for="emissor"/>
                         <p:inputText id="emissor" placeholder="Emissor" value="#{controleTrabalhador.trabalhador.orgaoExpedidorRg}"
                                      required="true" requiredMessage="O campo [Oergão Emissor] é obrigatório">
@@ -286,41 +293,40 @@
                             <f:selectItem itemLabel="CONTA POUPANÇA" itemValue="CONTA POUPANÇA" />
                         </p:selectOneMenu>
 
-
                     </h:panelGrid>
                     <p:fieldset>
-                    <p:separator />
-                    
-                    <p:commandButton value="Gravar" actionListener="#{controleTrabalhador.cadastrarFuncionario()}" image="ui-icon ui-icon-person" update="@form"/>
-                    <p:commandButton value="Cancelar" actionListener="#{controleTrabalhador.limpaFuncionario()}" image="ui-icon ui-icon-close" update="@form"/>
-
-</p:fieldset>
+                        <p:separator />
+                        <p:commandButton value="Gravar" actionListener="#{controleTrabalhador.cadastrarFuncionario()}" image="ui-icon ui-icon-person" update="@form"/>
+                        <p:commandButton value="Cancelar" actionListener="#{controleTrabalhador.limpaFuncionario()}" image="ui-icon ui-icon-close" update="@form"/>
+                    </p:fieldset>
                 </p:tab>
             </p:tabView>
 
 
         </h:form>
         
-        
+<!--         <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />-->
+
+
         <h:form id="incluiSal">
-                <p:dialog header="Incluir nova Faixa Salarial" widgetVar="incluirSalario" showEffect="explode" hideEffect="fade" height="200">
-                    <p:fieldset toggleable="true" >
-                        <p:growl id="msg0" />
-                        <p:panelGrid columns="2">
+            <p:dialog header="Incluir nova Faixa Salarial" widgetVar="incluirSalario" showEffect="explode" hideEffect="fade" height="200">
+                <p:fieldset toggleable="true" >
+                    <p:growl id="msg0" />
+                    <p:panelGrid columns="2">
 
-                            <p:outputLabel value="Salário " for="nomeSal"/>
-                            <p:inputText id="nomeSal" size="40" value="#{controleTrabalhador.salario1.valor}"
-                                         required="true" requiredMessage="O campo [Salário] é obrigatório" >
-                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
-                            </p:inputText>
+                        <p:outputLabel value="Salário " for="nomeSal"/>
+                        <p:inputText id="nomeSal" size="40" value="#{controleTrabalhador.salario1.valor}"
+                                     required="true" requiredMessage="O campo [Salário] é obrigatório" >
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" pattern="#0.00"/>
+                        </p:inputText>
 
-                            <p:commandButton value="Gravar" actionListener="#{controleTrabalhador.adicionaSalario()}" image="ui-icon ui-icon-person" update="@form,:cadTrabalhador:tabDados:salario"/>
-                            <p:commandButton value="Cancelar" actionListener="#{controleTrabalhador.limparSalario()}" image="ui-icon ui-icon-close" update="@form"/>
-                        </p:panelGrid>
-                    </p:fieldset>
-                </p:dialog>
-            </h:form>
-        
+                        <p:commandButton value="Gravar" actionListener="#{controleTrabalhador.adicionaSalario()}" image="ui-icon ui-icon-person" update="@form,:cadTrabalhador:tabDados:salario"/>
+                        <p:commandButton value="Cancelar" actionListener="#{controleTrabalhador.limparSalario()}" image="ui-icon ui-icon-close" update="@form"/>
+                    </p:panelGrid>
+                </p:fieldset>
+            </p:dialog>
+        </h:form>
+
 
         <h:form id="incluiCargo">
             <p:dialog header="Incluir novo Cargo" widgetVar="incluirCargo" showEffect="explode" hideEffect="fade" height="200">
@@ -347,6 +353,13 @@
                 </p:fieldset>
             </p:dialog>
 
+        </h:form>
+        <h:form enctype="multipart/form-data">
+            <p:dialog widgetVar="incluirFoto" showEffect="explode" hideEffect="fade" width="100" height="100">
+
+                <p:fileUpload style="border: 0" label="Foto" fileUploadListener="#{controleTrabalhador.salvarFotos}" sizeLimit="2048000" auto="true" update="@form,:cadTrabalhador:tabDados:foto"/>
+
+            </p:dialog>
         </h:form>
     </ui:define>
 </ui:composition>
