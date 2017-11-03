@@ -161,6 +161,7 @@
 
                 <p:tab title="Informações">
                     <h:panelGrid columns="2" cellpadding="4">
+                        <f:view encoding="ISO-8859-1">
 
                         <h:outputLabel for="cnae" value="CNAE.:"/>
                         <p:inputText id="cnae" size="40" value="#{controleEmpresa.entidadeCnpj.numeroCnae}"
@@ -190,7 +191,7 @@
                         <h:outputLabel for="dataSituacao" value="Data de Abertura:"/>
                         <p:calendar size="40" id="dataSituacao" value="#{controleEmpresa.entidadeCnpj.dataSituacao}" pattern="dd/MM/yyyy"
                                     requiredMessage="O campo [Data Sitiação] é obrigatório."/>
-
+</f:view>
                     </h:panelGrid>
 
 

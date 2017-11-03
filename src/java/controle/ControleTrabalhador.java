@@ -380,11 +380,23 @@ public class ControleTrabalhador implements Serializable {
     }
 
     public List<Trabalhador> procuraTrabalhador() {
-        
+
         List<Trabalhador> trabalhador = new ArrayList<Trabalhador>();
-        trabalhador=dao.listarCondic2(Trabalhador.class,"empregador",procuraEmpresa().getId());
-        
+        trabalhador = dao.listarCondic2(Trabalhador.class, "empregador", procuraEmpresa().getId());
+
         return trabalhador;
+    }
+
+    public void abrirLink(Trabalhador trabalhador) {
+        Trabalhador t = new Trabalhador();
+        t = trabalhador;
+
+        this.trabalhador = trabalhador;
+    }
+
+    public void excluirTrabalhador(Trabalhador t) {
+        dao.remover(t.getCep().getClass(), t.getCep().getId());
+        dao.remover(t.getClass(), t.getId());
     }
 
 }
