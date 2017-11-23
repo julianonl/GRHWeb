@@ -11,6 +11,7 @@ import entidade.DescricaoCargo;
 import entidade.Empregador;
 import entidade.Instrucao;
 import entidade.Nacionalidade;
+import entidade.TabelaHorario;
 import entidade.TabelaSalario;
 import entidade.Trabalhador;
 import imagensUpload.ImagenUpload;
@@ -54,7 +55,7 @@ public class ControleTrabalhador implements Serializable {
     private ImagenUpload imagen = new ImagenUpload();
     private TabelaSalario salario1 = new TabelaSalario();
     List<TabelaSalario> salario = new ArrayList<TabelaSalario>();
-
+    List<TabelaHorario> horario = new ArrayList<TabelaHorario>();
     private Cargo cargos1 = new Cargo();
 
     private DescricaoCargo descricaoCargo = new DescricaoCargo();
@@ -275,6 +276,15 @@ public class ControleTrabalhador implements Serializable {
         salario = dao.listar(TabelaSalario.class);
         for (TabelaSalario c : salario) {
             item.add(new SelectItem(c, "R$ - " + c.getValor()));
+        }
+        return item;
+    }
+
+    public List<SelectItem> getHorario() {
+        List<SelectItem> item = new ArrayList<SelectItem>();
+        horario = dao.listar(TabelaHorario.class);
+        for (TabelaHorario c : horario) {
+            item.add(new SelectItem(c,c.toString()));
         }
         return item;
     }

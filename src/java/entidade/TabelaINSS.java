@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 
 @Entity
@@ -28,6 +29,9 @@ public class TabelaINSS implements Serializable {
     private Double aliquotaInss2;
     private Double inssteto3;
     private Double aliquotaInss3;
+    
+    @ManyToOne
+    private Empregador empregador;
 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataDeValidadeTabela;
@@ -103,6 +107,16 @@ public class TabelaINSS implements Serializable {
     public void setInssteto2(Double inssteto2) {
         this.inssteto2 = inssteto2;
     }
+
+    public Empregador getEmpregador() {
+        return empregador;
+    }
+
+    public void setEmpregador(Empregador empregador) {
+        this.empregador = empregador;
+    }
+    
+    
 
     public Double getAliquotaInss2() {
         return aliquotaInss2;

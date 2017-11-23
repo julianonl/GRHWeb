@@ -23,7 +23,7 @@ public class Trabalhador implements Serializable {
     private String nome;
     @Column(name = "foto", length = 255, nullable = true)
     private String foto;
-    @Column(name = "cpf", unique = true, length = 14, nullable = false)
+    @Column(name = "cpf", length = 14, nullable = false)
     private String cpf;
     @Column(name = "email", length = 100, nullable = true)
     private String email;
@@ -32,7 +32,7 @@ public class Trabalhador implements Serializable {
    
     @Column(name = "numeroRg", length = 20, nullable = true)
     private String numeroRg;
-    @Column(name = "dataExpedicaoRg", nullable = false)
+    @Column(name = "dataExpedicaoRg", nullable = true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataExpedicaoRg;
     @Column(name = "orgaoExpedidorRg", length = 8, nullable = true)
@@ -43,7 +43,7 @@ public class Trabalhador implements Serializable {
     private String numeroCTPS;
     @Column(name = "serieCTPS", length = 20, nullable = true)
     private String serieCTPS;
-    @Column(name = "DataEmissaoCTPS", nullable = false)
+    @Column(name = "DataEmissaoCTPS", nullable = true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date DataEmissaoCTPS;
     @Column(name = "ufRg", length = 5, nullable = true)
@@ -70,7 +70,7 @@ public class Trabalhador implements Serializable {
     private Cep cep;
     @ManyToOne
     private Cargo cargo;
-    @Column(name = "dataDeAdmissao", nullable = false)
+    @Column(name = "dataDeAdmissao", nullable = true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataDeAdmissao;
     private int horasSemanais;
@@ -79,6 +79,8 @@ public class Trabalhador implements Serializable {
     private Empregador empregador;
     private int dependenteSalarioFamilia;
     private int dependenteIRRF;
+    
+
     
     @Column(name = "banco", length = 50, nullable = true)
     private String banco;
@@ -91,6 +93,9 @@ public class Trabalhador implements Serializable {
 
     @Column(name = "conta", length = 50, nullable = true)
     private String conta;
+    
+    @ManyToOne
+    private TabelaHorario tabelaHorario;
     
     @ManyToOne
     private TabelaSalario salario;
@@ -152,6 +157,16 @@ public class Trabalhador implements Serializable {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
+
+    public TabelaHorario getTabelaHorario() {
+        return tabelaHorario;
+    }
+
+    public void setTabelaHorario(TabelaHorario tabelaHorario) {
+        this.tabelaHorario = tabelaHorario;
+    }
+    
+    
 
 
     public String getNumeroRg() {

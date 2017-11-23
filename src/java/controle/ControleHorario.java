@@ -4,6 +4,7 @@ import dao.DAOCnpj;
 import dao.DAOGenerico;
 import entidade.Empregador;
 import entidade.TabelaHorario;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -17,7 +18,7 @@ import org.springframework.security.core.userdetails.User;
 
 @ManagedBean
 @SessionScoped
-public class ControleHorario {
+public class ControleHorario implements Serializable{
 
     private String login;
     SecurityContext context = SecurityContextHolder.getContext();

@@ -1,0 +1,158 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="_template.xhtml">
+
+    <ui:define name="conteudo">
+
+        <h1 class="aw-page-title">Pagamento</h1>
+
+        <h:form id="pagamento">
+
+            <p:growl id="msgs" showDetail="true"/>
+
+
+
+
+
+            <h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="2">
+                <h:outputText value="Selecione o Trabalhador:" />
+                <p:selectOneMenu value="#{controlePagamento.trabalhador}" converter="conversorEntidade">
+                    <f:selectItem /> 
+                    <f:selectItems value="#{controlePagamento.selectItems()}"/>
+
+                </p:selectOneMenu>
+
+
+
+                <p:commandButton actionListener="#{controlePagamento.referencia()}" value="OK" update="descRub1, totalProventos, refRub1, descRef1, pagSal6, pagSal5, pagSal, nomeTrab, cargoTrab, sitCargo" icon="ui-icon-check" />
+            </h:panelGrid>
+            <p:spacer />
+            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="2">
+
+
+                <h:outputText value="Nome: " />
+                <h:outputText id="nomeTrab" value="#{controlePagamento.trabalhador.nome}" style="font-weight: bold" />
+                <h:outputText value="Cargo: " />
+                <h:outputText id="cargoTrab" value="#{controlePagamento.trabalhador.cargo.nome}" style="font-weight: bold" />
+                <h:outputText value="Situação: " />
+                <h:outputText id="sitCargo" value="#{controlePagamento.trabalhador.estatus}" style="font-weight: bold" />
+            </h:panelGrid>
+
+            <p:spacer />
+
+            <h:panelGrid columns="4" border="2" width="100%" style="border-bottom-color: #ffffff; border-left-color:#ffffff; border-top-color: #ffffff; border-right-color: #ffffff  " cellpadding="3">
+                <h:outputText value="Vencimentos"/>
+                <h:outputText value="Ref. "/>
+
+                <h:outputText value="Descontos " />
+                <h:outputText value="Ref. " />
+
+
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="2">
+
+                    <h:outputText value="Salario: "/>
+                    <h:outputText id="pagSal"  value="#{controlePagamento.pagamento.salario}" style="font-weight: bold" />
+                    
+                    
+                    <h:outputText value="Salario Base: " rendered="#{controlePagamento.contador>=1}"/>
+                    
+                    
+                    <h:outputText id="pagSal5" rendered="#{controlePagamento.contador>=1}" value="#{controlePagamento.trabalhador.salario.valor}" style="font-weight: bold" />
+                    <h:outputText value="Salario Base:" rendered="#{controlePagamento.contador>=2}"/>
+                    <h:outputText id="pagSal6" rendered="#{controlePagamento.contador>=2}" value="#{controlePagamento.trabalhador.salario.valor}" style="font-weight: bold" />
+
+                </h:panelGrid>
+
+                
+                
+                
+                <h:panelGrid columns="1" style="margin-bottom:10px" cellpadding="2">
+                    <h:outputText id="refRub1" value="#{controlePagamento.refPagamento}" style="font-weight: bold" />
+                    <h:outputText id="refRub2" rendered="#{controlePagamento.contador>=1}" value="#{controlePagamento.refPagamento}" style="font-weight: bold" />
+                    <h:outputText id="refRub3" rendered="#{controlePagamento.contador>=2}" value="#{controlePagamento.refPagamento}" style="font-weight: bold" />
+                </h:panelGrid>
+
+
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="2">
+
+                    <h:outputText value="INSS: " />
+                    <h:outputText id="descRub1" value="#{controlePagamento.pagamento.inssRetido}" style="font-weight: bold" />
+
+                    <h:outputText value="INSS: " rendered="#{controlePagamento.contador>=1}"/>
+                    <h:outputText id="descRub2" rendered="#{controlePagamento.contador>=1}" value="#{controlePagamento.trabalhador.salario.valor}" style="font-weight: bold" />
+
+                    <h:outputText value="INSS: " rendered="#{controlePagamento.contador>=2}"/>
+                    <h:outputText id="descRub3" rendered="#{controlePagamento.contador>=2}" value="#{controlePagamento.trabalhador.salario.valor}" style="font-weight: bold" />
+
+                </h:panelGrid>
+
+                <h:panelGrid columns="1" style="margin-bottom:10px" cellpadding="2">
+                    <h:outputText id="descRef1" value="#{controlePagamento.refPagamento}" style="font-weight: bold" />
+                    <h:outputText id="descRef2" rendered="#{controlePagamento.contador>=1}" value="#{controlePagamento.refPagamento}" style="font-weight: bold" />
+                    <h:outputText id="descRef3" rendered="#{controlePagamento.contador>=2}" value="#{controlePagamento.refPagamento}" style="font-weight: bold" />
+                </h:panelGrid>
+
+
+
+                <h:outputText value="Total Vecimentos " />
+                <h:outputText id="totalProventos" value="#{controlePagamento.pagamento.totalDeProventos}" style="font-weight: bold" />
+
+                <h:outputText value="Total Desconto " />
+                <h:outputText id="pagRef2" value="#{controlePagamento.refPagamento}" style="font-weight: bold" />
+
+            </h:panelGrid>
+
+            <br/>
+
+            <p:commandButton value="Adicionar" actionListener="#{controlePagamento.adicionaCampo()}" update="@form"/>
+            <p:commandButton value="Remover" actionListener="#{controlePagamento.removeCampo()}" update="@form"/>
+
+            <p:spacer height="20"/>
+
+
+
+
+            <!--
+                        <p:dataTable id="cars2" var="trabalhador" value="{controlePagamento.buscaTrabalhador()}" editable="true" editMode="cell" widgetVar="cellCars">
+                            <f:facet name="header">
+                                Pagamentos
+                            </f:facet>
+            
+                            <p:ajax event="cellEdit" listener="{controlePagamento.onCellEdit}" update="@form:msgs" />
+            
+                            <p:column headerText="Id">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="{trabalhador.id}" /></f:facet>
+                                    <f:facet name="input"><p:inputText id="modelInput" value="{trabalhador.id}" style="width:96%"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="Id">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="{trabalhador.nome}" /></f:facet>
+                                    <f:facet name="input"><p:inputText id="modelInput1" value="{trabalhador.nome}" style="width:96%"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+            
+            
+                        </p:dataTable>
+            
+                        <p:contextMenu for="cars2" widgetVar="cMenu">   
+                            <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellCars').showCellEditor();return false;"/>  
+                            <p:menuitem value="Hide Menu" icon="ui-icon-close" onclick="PF('cMenu').hide()"/>  
+                        </p:contextMenu> 
+         
+
+
+
+
+                    <p:autoComplete id="rubrica" value="{controlePagamento.rubrica}" var="rubrica" completeMethod="{controlePagamento.sugerirRubrica}" itemLabel="#{rubrica.nomeRubrica}" itemValue="#{rubrica}" size="20" minQueryLength="1" converter="rubricaConverter">
+                    </p:autoComplete>
+
+   -->
+        </h:form>
+    </ui:define>
+</ui:composition>
+

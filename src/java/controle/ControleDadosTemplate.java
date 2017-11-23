@@ -2,8 +2,11 @@ package controle;
 
 import dao.DAOCnpj;
 import dao.DAOGenerico;
+import dao.DaoMesReferencia;
 import entidade.Empregador;
+import entidade.MesReferencia;
 import imagensUpload.ImagenUpload;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -25,9 +28,36 @@ public class ControleDadosTemplate {
     private String login;
     SecurityContext context = SecurityContextHolder.getContext();
     private DAOCnpj daocnpj = new DAOCnpj();
-
+    private DaoMesReferencia daoMes = new DaoMesReferencia();
+    private MesReferencia mesReferencia = new MesReferencia();
+    
+    
+    private String data;
     public ControleDadosTemplate() {
     }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+    
+    
+    
+    
+    
+
+    public MesReferencia getMesReferencia() {
+        return mesReferencia;
+    }
+
+    public void setMesReferencia(MesReferencia mesReferencia) {
+        this.mesReferencia = mesReferencia;
+    }
+    
+    
 
     public List<Empregador> procuraEmpresa() {
 
@@ -39,6 +69,7 @@ public class ControleDadosTemplate {
                 }
             }
             List<Empregador> listaEmpregador = dao.listarCondicao(Empregador.class, "cnpj.cnpj", login);
+            buscaMes();
             return listaEmpregador;
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -88,6 +119,14 @@ public class ControleDadosTemplate {
         FacesMessage msg = new FacesMessage("A Logomarca foi alterada com sucesso.");
         FacesContext.getCurrentInstance().addMessage("msgUpdate", msg);
 
+    }
+    
+    public void buscaMes(){
+    empregador = procuraEmpresas();
+    mesReferencia=daoMes.listarMesCondic(mesReferencia.getClass(), empregador.getId());
+    
+    data=new SimpleDateFormat("MMMM / yyyy").format(mesReferencia.getDataReferencia());
+    
     }
 
 }

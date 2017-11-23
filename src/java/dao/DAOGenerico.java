@@ -63,11 +63,7 @@ public class DAOGenerico {
         return retorno;
     }
     
-        public List listarCondic3(Class classe, long id) {
-        em = CriarEntityManager.getInstancia().getEm();
-        List<Object> retorno = em.createQuery("from " + classe.getSimpleName() + " where participante =" + id).getResultList();
-        return retorno;
-    }
+
 
     public List listarCondicData(Class classe) {
         em = CriarEntityManager.getInstancia().getEm();

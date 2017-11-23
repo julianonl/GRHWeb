@@ -22,7 +22,7 @@ public class Empregador implements Serializable {
 
     @OneToOne
     private Cnpj cnpj;
-    @Column(name = "responsavelNome", length = 150, nullable = false, unique = true)
+    @Column(name = "responsavelNome", length = 150, nullable = false)
     private String responsavelNome;
     @Column(name = "responsavelCPF", length = 16, nullable = false)
     private String responsavelCPF;

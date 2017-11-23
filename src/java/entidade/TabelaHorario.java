@@ -2,15 +2,20 @@ package entidade;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 @Entity
 public class TabelaHorario implements Serializable {
+
+    @OneToMany(mappedBy = "tabelaHorario")
+    private List<Trabalhador> trabalhadors;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -99,7 +104,8 @@ public class TabelaHorario implements Serializable {
 
     @Override
     public String toString() {
-        return "entidade.TabelaHorario[ id=" + id + " ]";
+
+        return "("+entrada1+"/"+saida1+" - "+entrada2+"/"+Saida2+")";
     }
 
 }

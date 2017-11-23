@@ -42,7 +42,7 @@ public class Cnpj implements Serializable {
     private String permissao;
     @ManyToOne(cascade = CascadeType.ALL)
     private Cep cep;
-    @Column(name = "telefone", length = 20, nullable = true)
+    @Column(name = "telefone", length = 30, nullable = true)
     private String telefone;
     @Column(name = "situacaoAtivaInativa", length = 20, nullable = true)
     private String situacaoAtivaInativa;

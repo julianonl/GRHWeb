@@ -8,42 +8,60 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-
+/**
+ *
+ * @author Juliano
+ */
 @Entity
-public class TabelaSalario implements Serializable {
+public class Rubricas implements Serializable {
+
+    @ManyToOne
+    private Pagamento pagamento;
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    
+    
+    private Integer cod;
+    private String nomeRubrica;
+    private String descricao;
+
+    public Integer getCod() {
+        return cod;
+    }
+
+    public void setCod(Integer cod) {
+        this.cod = cod;
+    }
+
+    public String getNomeRubrica() {
+        return nomeRubrica;
+    }
+
+    public void setNomeRubrica(String nomeRubrica) {
+        this.nomeRubrica = nomeRubrica;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+    
+    
+    
+    
+    
+    
 
     public Long getId() {
         return id;
     }
-    
-    
-    private Double valor;
-    
-    @ManyToOne
-    private Empregador empregador;
-
-    public Double getValor() {
-        return valor;
-    }
-
-    public void setValor(Double valor) {
-        this.valor = valor;
-    }
-
-    public Empregador getEmpregador() {
-        return empregador;
-    }
-
-    public void setEmpregador(Empregador empregador) {
-        this.empregador = empregador;
-    }
-    
-    
 
     public void setId(Long id) {
         this.id = id;
@@ -59,10 +77,10 @@ public class TabelaSalario implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TabelaSalario)) {
+        if (!(object instanceof Rubricas)) {
             return false;
         }
-        TabelaSalario other = (TabelaSalario) object;
+        Rubricas other = (Rubricas) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -71,7 +89,7 @@ public class TabelaSalario implements Serializable {
 
     @Override
     public String toString() {
-        return "entidade.TabelaSalario[ id=" + id + " ]";
+        return "entidade.Rubricas[ id=" + id + " ]";
     }
     
 }

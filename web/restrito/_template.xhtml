@@ -38,7 +38,12 @@
                     <h:column>
                         CNPJ: #{item.cnpj.cnpj} - Responsavel: #{item.responsavelNome}
                     </h:column>
+                
+
                 </h:dataTable>
+                
+                <h:outputText value=" Mês Referência: #{controleDadosTemplate.data}"/>
+                <p:outputLabel value=""/>
 
             </h:form>
 
@@ -100,8 +105,8 @@
                                                 <p:commandButton id="dynaButton" class="campomenu" value="Rotinas Diárias" type="button" icon="ui-icon-disk"/>
                                                 <p:slideMenu backLabel="Voltar" overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="width:180px">
                                                     <p:submenu label="Pagamento">
-                                                        <p:menuitem value="Lançamento" actionListener="#{menuView.save}" update="messages" icon="ui-icon-disk"/>
-                                                        <p:menuitem value="Recibo de Pagamento" actionListener="#{menuView.update}" update="messages" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="Lançamento" url="pagamento.xhtml" ajax="false" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="Rec. de Pagamento" actionListener="#{menuView.update}" update="messages" icon="ui-icon-disk"/>
                                                     </p:submenu>
                                                     <p:submenu label="Imprimir">
                                                         <p:menuitem value="Demonstrativo de Pagamento" actionListener="#{menuView.delete}"  ajax="false" icon="ui-icon-disk"/>
@@ -147,7 +152,7 @@
                                         <li>    
                                             <h:form>
                                                 <p:growl id="messages" showDetail="true"/>
-                                                <p:commandButton id="dynaButton" class="campomenu" value="Base de Dados" type="button" icon="ui-icon-person"/>
+                                                <p:commandButton id="dynaButton" class="campomenu" value="Relatórios" type="button" icon="ui-icon-person"/>
                                                 <p:slideMenu backLabel="Voltar" overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="width:180px">
                                                     <p:submenu label="Tabelas">
                                                         <p:menuitem value="Previdencia Social" actionListener="#{menuView.save}" update="messages" icon="ui-icon-person"/>
@@ -175,10 +180,10 @@
                                         <li>
                                             <h:form>
                                                 <p:growl id="messages" showDetail="true"/>
-                                                <p:commandButton id="dynaButton" class="campomenu" value="Rotinas Diárias" type="button" icon="ui-icon-disk"/>
+                                                <p:commandButton id="dynaButton" class="campomenu" value="Fechamento" type="button" icon="ui-icon-disk"/>
                                                 <p:slideMenu backLabel="Voltar" overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="width:180px">
                                                     <p:submenu label="Pagamento">
-                                                        <p:menuitem value="Lançamento" actionListener="#{menuView.save}" update="messages" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="Relatórios" actionListener="#{menuView.save}" update="messages" icon="ui-icon-disk"/>
                                                         <p:menuitem value="Recibo de Pagamento" actionListener="#{menuView.update}" update="messages" icon="ui-icon-disk"/>
                                                     </p:submenu>
                                                     <p:submenu label="Imprimir">
@@ -190,11 +195,11 @@
                                         <li>
                                             <h:form>
                                                 <p:growl id="messages" showDetail="true"/>
-                                                <p:commandButton id="dynaButton" class="campomenu" value="Afastamento" type="button" icon="ui-icon-extlink"/>
+                                                <p:commandButton id="dynaButton" class="campomenu" value="Ficha Financeira" type="button" icon="ui-icon-extlink"/>
                                                 <p:slideMenu backLabel="Voltar" overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="width:180px">
                                                     <p:submenu label="Afastamento">
-                                                        <p:menuitem value="Novo Afastamento" actionListener="#{menuView.save}" update="messages" icon="ui-icon-disk"/>
-                                                        <p:menuitem value="Lista Afastamentos" actionListener="#{menuView.update}" update="messages" icon="ui-icon-arrowrefresh-1-w"/>
+                                                        <p:menuitem value="Novo Afastamento" actionListener="{menuView.save}" update="messages" icon="ui-icon-disk"/>
+                                                        <p:menuitem value="Lista Afastamentos" actionListener="{menuView.update}" update="messages" icon="ui-icon-arrowrefresh-1-w"/>
                                                     </p:submenu>
                                                 </p:slideMenu>
                                             </h:form>

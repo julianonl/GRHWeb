@@ -254,6 +254,27 @@
                             </p:commandButton>
 
                         </h:panelGrid>
+                        
+                        
+                        
+                        
+                         <h:outputLabel for="horario" value="Horário"/>
+                        <h:panelGrid columns="2" cellpadding="1">
+                            <p:selectOneMenu style="width: 305px" id="horario" effect="fold"
+                                             value="#{controleTrabalhador.trabalhador.tabelaHorario.entrada1}"
+                                             converter="conversorEntidade">
+                                <f:selectItems value="#{controleTrabalhador.getHorario()}"/>
+                            </p:selectOneMenu>
+
+                            <p:commandButton id="cad2" icon="ui-icon-plus" onclick="PF('incluirSalario').show()">
+                                <p:tooltip id="dica2" for="cad1" value="Adicionar novo cargo" showEffect="clip" hideEffect="explode" style="color: #149bdf"/>
+                            </p:commandButton>
+
+                        </h:panelGrid>
+                        
+                        
+                        
+                        
 
                         <p:outputLabel value="DT Admissão" for="dtAdmissao"/>
                         <p:calendar id="dtAdmissao" size="40" placeholder="Data Admissão" value="#{controleTrabalhador.trabalhador.dataDeAdmissao}"

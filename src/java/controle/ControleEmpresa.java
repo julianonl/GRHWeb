@@ -8,6 +8,7 @@ import entidade.Cep;
 import entidade.Cidade;
 import entidade.Cnpj;
 import entidade.Empregador;
+import entidade.MesReferencia;
 import imagensUpload.ImagenUpload;
 import java.io.IOException;
 import java.io.Serializable;
@@ -47,6 +48,7 @@ public class ControleEmpresa implements Serializable {
     private BuscaCep buscaCep = new BuscaCep();
     private BuscaCNPJ buscaCNPJ = new BuscaCNPJ();
     private Empregador empregador = new Empregador();
+    private MesReferencia mesReferencia = new MesReferencia();
     private Cidade cidade = new Cidade();
     private DAOCnpj daoCnpj = new DAOCnpj();
     private DAOGenerico dao = new DAOGenerico();
@@ -189,6 +191,11 @@ public class ControleEmpresa implements Serializable {
             empregador.setCep(cepResponsavel);
             empregador.setCnpj(entidadeCnpj);
             dao.inserir(empregador);
+
+            mesReferencia.setDataReferencia(empregador.getDataDeCadastro());
+            mesReferencia.setEmpregador(empregador);
+
+            dao.inserir(mesReferencia);
 
             EnviaEmail cadastro = new EnviaEmail();
             cadastro.enviarEmail(
