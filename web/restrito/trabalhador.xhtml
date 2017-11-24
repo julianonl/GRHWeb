@@ -254,27 +254,24 @@
                             </p:commandButton>
 
                         </h:panelGrid>
-                        
-                        
-                        
-                        
-                         <h:outputLabel for="horario" value="Horário"/>
+
+                        <h:outputLabel for="horario" value="Horário"/>
                         <h:panelGrid columns="2" cellpadding="1">
                             <p:selectOneMenu style="width: 305px" id="horario" effect="fold"
-                                             value="#{controleTrabalhador.trabalhador.tabelaHorario.entrada1}"
+                                             value="#{controleTrabalhador.trabalhador.tabelaHorario}"
                                              converter="conversorEntidade">
                                 <f:selectItems value="#{controleTrabalhador.getHorario()}"/>
                             </p:selectOneMenu>
 
-                            <p:commandButton id="cad2" icon="ui-icon-plus" onclick="PF('incluirSalario').show()">
-                                <p:tooltip id="dica2" for="cad1" value="Adicionar novo cargo" showEffect="clip" hideEffect="explode" style="color: #149bdf"/>
+                            <p:commandButton id="cadHor" icon="ui-icon-plus" onclick="PF('incluirHorário').show()">
+                                <p:tooltip id="dicaHor" for="cadHor" value="Adicionar novo Horário" showEffect="clip" hideEffect="explode" style="color: #149bdf"/>
                             </p:commandButton>
 
                         </h:panelGrid>
-                        
-                        
-                        
-                        
+
+
+
+
 
                         <p:outputLabel value="DT Admissão" for="dtAdmissao"/>
                         <p:calendar id="dtAdmissao" size="40" placeholder="Data Admissão" value="#{controleTrabalhador.trabalhador.dataDeAdmissao}"
@@ -327,6 +324,48 @@
         </h:form>
 
         <!--         <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />-->
+
+        <h:form id="incluiHor">
+            <p:dialog header="Incluir novo Horário" widgetVar="incluirHorário" showEffect="explode" hideEffect="fade" height="200">
+                <p:fieldset toggleable="true" >
+                    <p:growl id="msg0" />
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="Entrada: " for="entrada1"/>
+                        <p:calendar id="entrada1" size="40" value="#{controleTrabalhador.tabHorario.entrada1}"
+                                    required="true" requiredMessage="O campo [Entrada] é obrigatório" 
+                                    pattern="HH:mm" timeOnly="true" showOn="button">
+                        </p:calendar>
+
+                        <p:outputLabel value="Saída Intervalo: " for="saida1"/>
+                        <p:calendar id="saida1" size="40" value="#{controleTrabalhador.tabHorario.saida1}"
+                                    required="true" requiredMessage="O campo [Saída Intervalo] é obrigatório" 
+                                    pattern="HH:mm" timeOnly="true" showOn="button">
+                        </p:calendar>
+
+                        <p:outputLabel value="Retorno Intervalo: " for="entrada2"/>
+                        <p:calendar id="entrada2" size="40" value="#{controleTrabalhador.tabHorario.entrada2}"
+                                    required="true" requiredMessage="O campo [Retorno Intervalo] é obrigatório" 
+                                    pattern="HH:mm" timeOnly="true" showOn="button">
+                        </p:calendar>
+
+                        <p:outputLabel value="Saída: " for="saida2"/>
+                        <p:calendar id="saida2" size="40" value="#{controleTrabalhador.tabHorario.saida2}"
+                                    required="true" requiredMessage="O campo [Saída] é obrigatório" 
+                                    pattern="HH:mm" timeOnly="true" showOn="button">
+                        </p:calendar>
+
+                        <p:commandButton value="Gravar" actionListener="#{controleTrabalhador.adicionaHorario()}" image="ui-icon ui-icon-person" update="@form,:cadTrabalhador:tabDados:horario"/>
+                        <p:commandButton value="Cancelar" actionListener="#{controleTrabalhador.limparHorario()}" image="ui-icon ui-icon-close" update="@form,:incluiHor"/>
+
+
+
+                    </p:panelGrid>
+                </p:fieldset>
+            </p:dialog>
+        </h:form>
+
+
 
 
         <h:form id="incluiSal">

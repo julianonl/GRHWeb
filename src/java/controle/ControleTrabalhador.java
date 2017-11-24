@@ -54,6 +54,7 @@ public class ControleTrabalhador implements Serializable {
     BuscaCep buscaCep = new BuscaCep();
     private ImagenUpload imagen = new ImagenUpload();
     private TabelaSalario salario1 = new TabelaSalario();
+    private TabelaHorario tabHorario = new TabelaHorario();
     List<TabelaSalario> salario = new ArrayList<TabelaSalario>();
     List<TabelaHorario> horario = new ArrayList<TabelaHorario>();
     private Cargo cargos1 = new Cargo();
@@ -70,6 +71,14 @@ public class ControleTrabalhador implements Serializable {
     public void atualizaCargos() {
         DAOCargo daoCargo = new DAOCargo();
         cargos = daoCargo.listar();
+    }
+
+    public TabelaHorario getTabHorario() {
+        return tabHorario;
+    }
+
+    public void setTabHorario(TabelaHorario tabHorario) {
+        this.tabHorario = tabHorario;
     }
 
     public Cargo getCargo() {
@@ -284,7 +293,7 @@ public class ControleTrabalhador implements Serializable {
         List<SelectItem> item = new ArrayList<SelectItem>();
         horario = dao.listar(TabelaHorario.class);
         for (TabelaHorario c : horario) {
-            item.add(new SelectItem(c,c.toString()));
+            item.add(new SelectItem(c, c.toString()));
         }
         return item;
     }
@@ -407,6 +416,32 @@ public class ControleTrabalhador implements Serializable {
     public void excluirTrabalhador(Trabalhador t) {
         dao.remover(t.getCep().getClass(), t.getCep().getId());
         dao.remover(t.getClass(), t.getId());
+    }
+
+    public String adicionaHorario() {
+        if (tabHorario.getId() == null || tabHorario.getId() == 0) {
+
+            tabHorario.setEmpregador(procuraEmpresa());
+            dao.inserir(tabHorario);
+            tabHorario = new TabelaHorario();
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Horário adicionado com sucesso", ""));
+
+        } else {
+            atualizaHorario();
+        }
+
+        return null;
+    }
+
+    private void atualizaHorario() {
+        dao.alterar(tabHorario);
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Atualização efetuada com sucesso", ""));
+    }
+    
+       public void limparHorario() {
+        tabHorario = new TabelaHorario();
     }
 
 }
