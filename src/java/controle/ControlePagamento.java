@@ -8,6 +8,7 @@ import entidade.MesReferencia;
 import entidade.Pagamento;
 import entidade.Rubricas;
 import entidade.TabelaINSS;
+import entidade.TabelaIRRF;
 import entidade.Trabalhador;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -54,15 +55,26 @@ public class ControlePagamento implements Serializable {
     private TabelaINSS tabelaINSS = new TabelaINSS();
     private Pagamento pagamento = new Pagamento();
     private DecimalFormat decimalFormat = new DecimalFormat();
+    private TabelaIRRF irrf = new TabelaIRRF();
+    private Double aliqota;
 
     public ControlePagamento() {
         tabelaINSS = (TabelaINSS) dao.buscarPorId(TabelaINSS.class, procuraEmpresas().getId());
         rubricas = dao.listar(Rubricas.class);
+        irrf = (TabelaIRRF) dao.listarCondicString(TabelaIRRF.class, 1L);
 
     }
 
     public Pagamento getPagamento() {
         return pagamento;
+    }
+
+    public Double getAliqota() {
+        return aliqota;
+    }
+
+    public void setAliqota(Double aliqota) {
+        this.aliqota = aliqota;
     }
 
     public void setPagamento(Pagamento pagamento) {
@@ -173,13 +185,30 @@ public class ControlePagamento implements Serializable {
     }
 
     public void adicionaCampo() {
-        contador++;
-        //Adiciona elemento na lista
+        if (contador < 3) {
+            ++contador;
+        }
     }
 
     public void removeCampo() {
-        contador--;
-        //Remove elemento da lista
+        if (contador >= 0) {
+            --contador;
+        }
+    }
+
+    public void salvar() {
+        pagamento.setTrabalhador(trabalhador);
+        pagamento.setMesReferencia(mesReferencia);
+        dao.inserir(pagamento);
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Gravação efetuada com sucesso", ""));
+
+    }
+
+    private void updatePagamento() {
+        dao.alterar(pagamento);
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Atualização efetuada com sucesso", ""));
     }
 
     public int referencia() {
@@ -203,14 +232,6 @@ public class ControlePagamento implements Serializable {
         int mesAdmissao = cal.get(Calendar.MONTH);
         int anoAdmissao = cal.get(Calendar.YEAR);
 
-        System.out.println("dia ADM: " + diaAdmissao);
-        System.out.println("Mes ADM: " + mesAdmissao);
-        System.out.println("Ano ADM: " + anoAdmissao);
-
-        System.out.println("dia ref: " + diaReferencia);
-        System.out.println("Mes ref: " + mesReferencia);
-        System.out.println("Ano ref: " + anoReferencia);
-
         if (mesAdmissao == mesReferencia && anoAdmissao == anoReferencia) {
 
             if (diaAdmissao == 31) {
@@ -219,12 +240,20 @@ public class ControlePagamento implements Serializable {
                 BigDecimal bd = new BigDecimal((trabalhador.getSalario().getValor() / 30) * refPagamento).setScale(2, RoundingMode.HALF_EVEN);
                 pagamento.setSalario(bd.doubleValue());
                 calculaINSS();
+                calculaIR();
+                totaLiquido();
+                calculaFgts();
+
                 return refPagamento;
             } else {
                 refPagamento = 30 - (diaAdmissao - 1);
                 BigDecimal bd = new BigDecimal((trabalhador.getSalario().getValor() / 30) * refPagamento).setScale(2, RoundingMode.HALF_EVEN);
                 pagamento.setSalario(bd.doubleValue());
                 calculaINSS();
+                calculaIR();
+                totaLiquido();
+                calculaFgts();
+
                 return refPagamento;
             }
         } else {
@@ -232,6 +261,10 @@ public class ControlePagamento implements Serializable {
             BigDecimal bd = new BigDecimal((trabalhador.getSalario().getValor() / 30) * refPagamento).setScale(2, RoundingMode.HALF_EVEN);
             pagamento.setSalario(bd.doubleValue());
             calculaINSS();
+            calculaIR();
+            totaLiquido();
+            calculaFgts();
+
             return refPagamento;
         }
 
@@ -256,7 +289,7 @@ public class ControlePagamento implements Serializable {
     }
 
     public void calculaINSS() {
-        pagamento.setTotalDeProventos(pagamento.getSalario());
+        pagamento.setTotalDeProventos(pagamento.getSalario() + pagamento.getValorPag1() + pagamento.getValorPag2() + pagamento.getValorPag3());
 
         if (pagamento.getTotalDeProventos() <= tabelaINSS.getInssteto1()) {
             BigDecimal bd = new BigDecimal(pagamento.getTotalDeProventos() * 0.08).setScale(2, RoundingMode.HALF_EVEN);
@@ -270,25 +303,66 @@ public class ControlePagamento implements Serializable {
             BigDecimal bd = new BigDecimal(pagamento.getTotalDeProventos() * 0.11).setScale(2, RoundingMode.HALF_EVEN);
             pagamento.setInssRetido(bd.doubleValue());
 
-        }
-        
-        else if (pagamento.getTotalDeProventos() > tabelaINSS.getInssteto3()){
+        } else if (pagamento.getTotalDeProventos() > tabelaINSS.getInssteto3()) {
             BigDecimal bd = new BigDecimal(tabelaINSS.getInssteto3() * 0.11).setScale(2, RoundingMode.HALF_EVEN);
             pagamento.setInssRetido(bd.doubleValue());
 
         }
-        
-   
-        
-        
 
     }
-    
-    
-         public void fgtsRetido(){
-        
-        
-        
+
+    public void calculaFgts() {
+        BigDecimal bd = new BigDecimal(pagamento.getTotalDeProventos() * 0.08).setScale(2, RoundingMode.HALF_EVEN);
+        pagamento.setFgtsRetido(bd.doubleValue());
+
+    }
+
+    public void totaLiquido() {
+
+        BigDecimal bd = new BigDecimal(pagamento.getIrrf() + pagamento.getInssRetido() + pagamento.getValorDesc1() + pagamento.getValorDesc2() + pagamento.getValorDesc3()).setScale(2, RoundingMode.HALF_EVEN);
+        pagamento.setTotalDeDesconto(bd.doubleValue());
+
+        bd = new BigDecimal(pagamento.getSalario() + pagamento.getValorPag1() + pagamento.getValorPag2() + pagamento.getValorPag3()).setScale(2, RoundingMode.HALF_EVEN);
+        pagamento.setTotalDeProventos(bd.doubleValue());
+
+        bd = new BigDecimal(pagamento.getTotalDeProventos() - pagamento.getTotalDeDesconto()).setScale(2, RoundingMode.HALF_EVEN);
+        pagamento.setTotalLiquido(bd.doubleValue());
+
+    }
+
+    public void calculaIR() {
+
+        Double controle = pagamento.getTotalDeProventos() - pagamento.getInssRetido();
+
+        if (controle < irrf.getValorTeto1()) {
+            pagamento.setIrrf(0.0);
+            aliqota = irrf.getAliquotaTeto1();
+
         }
+
+        if (controle >= irrf.getValorTeto1() && controle < irrf.getValorTeto2()) {
+            BigDecimal bd = new BigDecimal(((controle * irrf.getAliquotaTeto2()) / 100.0) - irrf.getDeducaoTeto2()).setScale(2, RoundingMode.HALF_EVEN);
+            pagamento.setIrrf(bd.doubleValue());
+            aliqota = irrf.getAliquotaTeto2();
+        }
+
+        if (controle >= irrf.getValorTeto2() && controle < irrf.getValorTeto3()) {
+            BigDecimal bd = new BigDecimal(((controle * irrf.getAliquotaTeto3()) / 100.0) - irrf.getDeducaoTeto3()).setScale(2, RoundingMode.HALF_EVEN);
+            pagamento.setIrrf(bd.doubleValue());
+            aliqota = irrf.getAliquotaTeto3();
+        }
+
+        if (controle >= irrf.getValorTeto3() && controle < irrf.getValorTeto4()) {
+            BigDecimal bd = new BigDecimal(((controle * irrf.getAliquotaTeto4()) / 100.0) - irrf.getDeducaoTeto4()).setScale(2, RoundingMode.HALF_EVEN);
+            pagamento.setIrrf(bd.doubleValue());
+            aliqota = irrf.getAliquotaTeto4();
+        }
+        if (controle >= irrf.getValorTeto4()) {
+            BigDecimal bd = new BigDecimal(((controle * irrf.getAliquotaTeto5()) / 100.0) - irrf.getDeducaoTeto5()).setScale(2, RoundingMode.HALF_EVEN);
+            pagamento.setIrrf(bd.doubleValue());
+            aliqota = irrf.getAliquotaTeto5();
+        }
+
+    }
 
 }
